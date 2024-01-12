@@ -34,6 +34,18 @@ urlpatterns = [
     path('parties_default', views.parties_default, name='parties_default'),
     path('create_debitnotes',views.create_debitnotes,name='create_debitnotes'),
     path('view_purchasedebit',views.view_purchasedebit,name='view_purchasedebit'),
+    path('view_parties', views.view_parties, name='view_parties'),
+    path('view_party/<int:id>', views.view_party, name='view_party'),
+    path('saveitem',views.saveitem,name='saveitem'),
+    path('itemdetail',views.itemdetail,name='itemdetail'),
+    path('savecustomer1',views.savecustomer1,name='savecustomer1'),
+    path('cust_dropdown1',views.cust_dropdown1,name='cust_dropdown1'),
+    path('saveitem1',views.saveitem1,name='saveitem1'),
+    path('item_dropdowns',views.item_dropdowns,name='item_dropdowns'),
+    path('custdata1',views.custdata1,name='custdata1'),
+    path('purchasebilldata',views.purchasebilldata,name='purchasebilldata'),
+    path('get_bill_date',views.get_bill_date,name='get_bill_date'),
+    path('bankdata1',views.bankdata1,name='bankdata1'),
 
    
 

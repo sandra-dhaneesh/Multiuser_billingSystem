@@ -1,6 +1,12 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User, auth
 from . models import *
+import json
+from django.db.models import F
+from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponse
+from django.core.serializers.json import DjangoJSONEncoder
+from django.utils import timezone
 from django.contrib import messages
 from django.utils.crypto import get_random_string
 from django.contrib.auth.decorators import login_required
@@ -490,3 +496,210 @@ def view_purchasedebit(request):
   
   context = {'staff':staff,'allmodules':allmodules,'pdebt':pdebt}
   return render(request,'purchase_return_dr.html',context)
+
+def view_parties(request):
+  staff_id = request.session['staff_id']
+  staff =  staff_details.objects.get(id=staff_id)
+  
+ 
+  Party=party.objects.filter(company=staff.company.id)
+  allmodules= modules_list.objects.get(company=staff.company,status='New')
+  return render(request, 'view_parties.html',{'staff':staff,'allmodules':allmodules,'Party':Party})
+
+def view_party(request,id):
+  staff_id = request.session['staff_id']
+  staff =  staff_details.objects.get(id=staff_id)
+  getparty=party.objects.get(id=id)
+  Party=party.objects.filter(company=staff.company.id)
+  allmodules= modules_list.objects.get(company=staff.company,status='New')
+  return render(request, 'view_party.html',{'staff':staff,'allmodules':allmodules,'Party':Party,'getparty':getparty})
+
+def saveitem(request):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+
+  name = request.POST['name']
+  unit = request.POST['unit']
+  hsn = request.POST['hsn']
+  taxref = request.POST['taxref']
+  sell_price = request.POST['sell_price']
+  cost_price = request.POST['cost_price']
+  intra_st = request.POST['intra_st']
+  inter_st = request.POST['inter_st']
+
+  if taxref != 'Taxable':
+    intra_st = 'GST0[0%]'
+    inter_st = 'IGST0[0%]'
+
+  itmdate = request.POST.get('itmdate')
+  stock = request.POST.get('stock')
+  itmprice = request.POST.get('itmprice')
+  minstock = request.POST.get('minstock')
+
+  if not hsn:
+    hsn = None
+
+  itm = ItemModel(item_name=name, item_hsn=hsn,item_unit=unit,item_taxable=taxref, item_gst=intra_st,item_igst=inter_st, item_sale_price=sell_price, 
+                item_purchase_price=cost_price,item_opening_stock=stock,item_current_stock=stock,item_at_price=itmprice,item_date=itmdate,
+                item_min_stock_maintain=minstock,company=cmp,user=cmp.user)
+  itm.save() 
+  return JsonResponse({'success': True})
+
+def itemdetail(request):
+  itmid = request.GET['id']
+  itm = ItemModel.objects.get(id=itmid)
+  hsn = itm.item_hsn
+  gst = itm.item_gst
+  igst = itm.item_igst
+  price = itm.item_purchase_price
+  qty = itm.item_current_stock
+  return JsonResponse({'hsn':hsn, 'gst':gst, 'igst':igst, 'price':price, 'qty':qty})
+
+def savecustomer1(request):
+  if request.method =='POST':
+    sid = request.session.get('staff_id')
+    staff = staff_details.objects.get(id=sid)
+    cmp = company.objects.get(id=staff.company.id)
+
+    party_name = request.POST['name']
+    email = request.POST['email']
+    contact = request.POST['mobile']
+    state = request.POST['splystate']
+    address = request.POST['baddress']
+    gst_type = request.POST['gsttype']
+    gst_no = request.POST['gstin']
+    current_date = request.POST['partydate']
+    openingbalance = request.POST.get('openbalance')
+    payment = request.POST.get('paytype')
+    creditlimit = request.POST.get('credit_limit')
+    End_date = request.POST.get('enddate', None)
+    additionalfield1 = request.POST['add1']
+    additionalfield2 = request.POST['add2']
+    additionalfield3 = request.POST['add3']
+
+    part = party(party_name=party_name, gst_no=gst_no,contact=contact,gst_type=gst_type, state=state,address=address, email=email, openingbalance=openingbalance,
+                  payment=payment,creditlimit=creditlimit,current_date=current_date,End_date=End_date,additionalfield1=additionalfield1,additionalfield2=additionalfield2,
+                  additionalfield3=additionalfield3,company=cmp,user=cmp.user)
+    part.save() 
+  return JsonResponse({'success': True})
+
+def cust_dropdown1(request):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+  part = party.objects.filter(company=cmp,user=cmp.user)
+
+  id_list = []
+  party_list = []
+  for p in part:
+    id_list.append(p.id)
+    party_list.append(p.party_name)
+
+  return JsonResponse({'id_list':id_list, 'party_list':party_list })
+
+def saveitem1(request):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+
+  name = request.POST['name']
+  unit = request.POST['unit']
+  hsn = request.POST['hsn']
+  taxref = request.POST['taxref']
+  sell_price = request.POST['sell_price']
+  cost_price = request.POST['cost_price']
+  intra_st = request.POST['intra_st']
+  inter_st = request.POST['inter_st']
+
+  if taxref != 'Taxable':
+    intra_st = 'GST0[0%]'
+    inter_st = 'IGST0[0%]'
+
+  itmdate = request.POST.get('itmdate')
+  stock = request.POST.get('stock')
+  itmprice = request.POST.get('itmprice')
+  minstock = request.POST.get('minstock')
+
+  itm = ItemModel(item_name=name, item_hsn=hsn,item_unit=unit,item_taxable=taxref, item_gst=intra_st,item_igst=inter_st, item_sale_price=sell_price, 
+                item_purchase_price=cost_price,item_opening_stock=stock,item_current_stock=stock,item_at_price=itmprice,item_date=itmdate,
+                item_min_stock_maintain=minstock,company=cmp,user=cmp.user)
+  itm.save() 
+  return JsonResponse({'success': True})
+
+def item_dropdowns(request):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+  product = ItemModel.objects.filter(company=cmp,user=cmp.user)
+
+  id_list = []
+  product_list = []
+  for p in product:
+    id_list.append(p.id)
+    product_list.append(p.item_name)
+  return JsonResponse({'id_list':id_list, 'product_list':product_list})
+
+def custdata1(request):
+  cid = request.POST['id']
+  part = party.objects.get(id=cid)
+  # email = part.email
+  phno = part.contact
+  address = part.address
+  pay = part.payment
+  bal = part.openingbalance
+  return JsonResponse({ 'phno':phno, 'address':address, 'pay':pay, 'bal':bal})
+
+def purchasebilldata(request):
+    try:
+        party_name = request.POST['id']
+        party_instance = party.objects.get(id=party_name)
+
+        # Initialize lists to store multiple bill numbers and dates
+        bill_numbers = []
+        bill_dates = []
+
+        try:
+            # Retrieve all PurchaseBill instances for the party
+            bill_instances = PurchaseBill.objects.filter(party=party_instance)
+
+            # Loop through each PurchaseBill instance and collect bill numbers and dates
+            for bill_instance in bill_instances:
+                bill_numbers.append(bill_instance.billno)
+                bill_dates.append(bill_instance.billdate)
+
+        except PurchaseBill.DoesNotExist:
+            pass
+
+        # Return a JSON response with the list of bill numbers and dates
+        if not bill_numbers and not bill_dates:
+            return JsonResponse({'bill_numbers': ['nobill'], 'bill_dates': ['nodate']})
+
+        return JsonResponse({'bill_numbers': bill_numbers, 'bill_dates': bill_dates})
+
+    except KeyError:
+        return JsonResponse({'error': 'The key "id" is missing in the POST request.'})
+
+    except party.DoesNotExist:
+        return JsonResponse({'error': 'Party not found.'})
+    
+def get_bill_date(request):
+    selected_bill_no = request.POST.get('bill_no', None)
+
+    try:
+        # Get the latest PurchaseBill with the specified bill_number
+        purchase_bill = PurchaseBill.objects.filter(billno=selected_bill_no).latest('billdate')
+        bill_date = purchase_bill.billdate.strftime('%Y-%m-%d')
+    except PurchaseBill.DoesNotExist:
+        return JsonResponse({'error': 'Bill number not found'}, status=400)
+    except PurchaseBill.MultipleObjectsReturned:
+        # Handle the case where multiple PurchaseBills are found for the same bill_number
+        return JsonResponse({'error': 'Multiple PurchaseBills found for the same bill number'}, status=400)
+
+    return JsonResponse({'bill_date': bill_date})
+
+def bankdata1(request):
+  bid = request.POST['id']
+  bank = BankModel.objects.get(id=bid) 
+  bank_no = bank.account_num
+  return JsonResponse({'bank_no':bank_no})
