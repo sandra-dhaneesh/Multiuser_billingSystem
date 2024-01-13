@@ -87,7 +87,7 @@ class modules_list(models.Model):
     Upi = models.IntegerField(null=True,default=0) 
 
     update_action = models.IntegerField(null=True,default=0) 
-    status = models.CharField(max_length=100,null=True,default='New') 
+    status = models.CharField(max_length=100,null=True,default='New')  
 
 class ItemModel(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)

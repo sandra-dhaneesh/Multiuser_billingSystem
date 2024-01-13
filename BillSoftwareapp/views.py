@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User, auth
 from . models import *
+from .models import purchasedebit, purchasedebit1 
+from .models import modules_list
 import json
 from django.db.models import F
 from django.http.response import JsonResponse
@@ -451,7 +453,9 @@ def create_debitnotes(request):
     qty =  tuple(request.POST.getlist("qty[]"))
     discount =  tuple(request.POST.getlist("discount[]"))
     total =  tuple(request.POST.getlist("total[]"))
-    pdebitid = purchasedebit.objects.get(pdebitid =pdebt.pdebitid,company=cmp)
+    pdebitid = purchasedebit.objects.get(pdebitid=pdebt.pdebitid, company=cmp)
+
+
 
     if len(product)==len(qty)==len(discount)==len(total):
         mapped=zip(product,qty,discount,total)
@@ -475,7 +479,6 @@ def create_debitnotes(request):
     
   else:
     return render(request,'adddebitnotes.html')
-
 def view_purchasedebit(request):
   if 'staff_id' in request.session:
     if request.session.has_key('staff_id'):
@@ -487,7 +490,7 @@ def view_purchasedebit(request):
   cmp = company.objects.get(id=staff.company.id)
   print("hello")
   print(staff)
-  allmodules= modules_list.objects.get(company=cmp,status='New')
+  allmodules = modules_list.objects.filter(company=staff.company, status='New').first()
   pdebt = purchasedebit.objects.filter(company=cmp)
 
   if not pdebt:
@@ -703,3 +706,72 @@ def bankdata1(request):
   bank = BankModel.objects.get(id=bid) 
   bank_no = bank.account_num
   return JsonResponse({'bank_no':bank_no})
+
+def debthistory(request):
+  pid = request.POST['id']
+  sid = request.session.get('staff_id')
+  staff = staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id) 
+  pdebt = purchasedebit.objects.get(pdebitid=pid,company=cmp)
+  hsty = DebitnoteTransactionHistory.objects.filter(debitnote=pdebt,company=cmp).last()
+  name = hsty.staff.first_name + ' ' + hsty.staff.last_name 
+  action = hsty.action
+  return JsonResponse({'name':name,'action':action,'pid':pid})
+
+def delete_debit(request,id):
+  sid = request.session.get('staff_id')
+  staff = staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id) 
+  pdebt = purchasedebit.objects.get(pdebitid=id)
+  purchasedebit1.objects.filter(pdebit=pdebt,company=cmp).delete()
+  pdebt.delete()
+  return redirect('view_purchasedebit')
+
+def details_debitnote(request,id):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id) 
+  allmodules = modules_list.objects.get(company=staff.company,status='New')
+  pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
+  pitm = purchasedebit1.objects.filter(pdebit=pdebt,company=cmp)
+  dis = 0
+  for itm in pitm:
+    dis += int(itm.discount)
+  itm_len = len(pitm)
+
+  context={'staff':staff,'allmodules':allmodules,'pdebt':pdebt,'pitm':pitm,'itm_len':itm_len,'dis':dis}
+  return render(request,'debitnotedetails.html',context)
+
+def edit_debitnote(request,id):
+  toda = date.today()
+  tod = toda.strftime("%Y-%m-%d")
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+  partys = party.objects.filter(company=cmp,user=cmp.user)
+  item = ItemModel.objects.filter(company=cmp,user=cmp.user)
+  item_units = UnitModel.objects.filter(user=cmp.user,company=staff.company.id)
+  bank = BankModel.objects.filter(company=cmp,user=cmp.user)
+  allmodules= modules_list.objects.get(company=staff.company,status='New')
+  pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
+  debtitem = purchasedebit1.objects.filter(pdebit=id,company=cmp)
+  
+  if pdebt.payment_type != 'Cash' and pdebt.payment_type != 'Cheque' and pdebt.payment_type != 'UPI':
+    bankno = BankModel.objects.get(id= pdebt.payment_type,company=cmp,user=cmp.user)
+  else:
+    bankno = 0
+  
+
+  ddate = pdebt.debitdate.strftime("%Y-%m-%d")
+  context = {'staff':staff,  'allmodules':allmodules, 'pdebt':pdebt, 'debtitem':debtitem, 'partys':partys, 'item':item, 'item_units':item_units, 'ddate':ddate,'bank':bank,'bankno':bankno,'tod':tod}
+  return render(request,'debitnoteedit.html',context)
+
+def history_debitnote(request,id):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)  
+  allmodules= modules_list.objects.get(company=staff.company,status='New')
+  pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
+  hsty= DebitnoteTransactionHistory.objects.filter(debitnote=id,company=cmp)
+  context = {'staff':staff,'allmodules':allmodules,'hsty':hsty,'id':id}
+  return render(request,'debitnotehistory.html',context)

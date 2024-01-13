@@ -18,7 +18,7 @@
 
 
 
-{% load my_extras %}
+
 
 <style>
     .bs{
@@ -155,53 +155,54 @@
 <div class="body-wrapper">
     <br><br><br>
     
-    <!-- <div class="d-flex justify-content-center pt-4">
-        <a href="" id="b1" class="btn  text-white"
-            style="margin-right: 10px; background-color: rgb(252, 3, 3,0.7);border-radius: 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+     <div class="d-flex justify-content-center pt-4">
+        <a href="" id="b1" class="btn  text-dark"
+            style="margin-right: 10px; background-color: rgb(154, 205, 50);border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             Add Sale <i class="fa fa-plus"></i>
         </a>
         <a href="" id="b2" class="btn  text-white"
-            style="margin-right: 10px;background-color: rgba(3, 161, 252, 0.7);border-radius: 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            style="margin-right: 10px;background-color: rgb(218, 112, 214);border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             Add Purchase <i class="fa fa-plus"></i>
         </a>
-        <a href="" id="b3" class="btn text-primary"
-            style="border-radius: 20px;border: 1px solid rgb(40, 12, 222);background-color: white;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        <a href="" id="b3" class="btn text-dark"
+            style="border-radius: 20px;border: 1px solid rgb(0, 0, 0);background-color: aqua;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             Add More <i class="fa fa-plus"></i>
         </a>
-    </div> -->
+    </div> 
     <p></p>
-    <div class="row ps-3 pe-3 m-0" >
+   
+    <div class="row ps-3 pe-3 m-0 d-flex align-items-center justify-content-center">
         <div class="col-sm-12 ps-2 pe-3">
-       
             <div class="row pt-0 m-0">
-                <div class="card p-0 bg-light bs"><br>
+                <div class="card p-0 bg-light bs mx-auto my-5 w-75"> <!-- Added mx-auto and my-5 classes to center the card -->
+                    <br>
                     <div class="row">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-3" style="margin-left: 7vh;">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="fromDate" style="color: black; margin-bottom: 1vh;">From Date:</label>
-                                        <input type="date" class="form-control h-100 border-secondary" id="fromDate" style="color: black; background-color: white;"  onchange="filterDates()"> 
+                                        <input type="date" class="form-control h-100 border-secondary" id="fromDate" style="color: black; background-color: white;" onchange="filterDates()"> 
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="toDate" style="color: black; margin-bottom: 1vh;">To Date:</label>
-                                        <input type="date" class="form-control h-100 border-secondary" id="toDate" style="color: black; background-color: white;"  onchange="filterDates()">
+                                        <input type="date" class="form-control h-100 border-secondary" id="toDate" style="color: black; background-color: white;" onchange="filterDates()">
                                     </div>
                                 </div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md">
-                                    <button class="btn mt-3 " type="button" onclick="ExportToExcel()">
+                                    <button class="btn mt-3" type="button" onclick="ExportToExcel()">
                                         <i class="fa fa-file-excel-o" aria-hidden="true" style="font-size:22px;color:green"></i>
                                         <br><span style="color: black; font-size: small; font-weight: bold;">Excel</span>
                                     </button>
-
+    
                                     <button class="btn mt-3" type="button" onclick="printfunction()">
                                         <i class="fa fa-print" aria-hidden="true" style="font-size:22px;color: red;"></i>
                                         <br><span style="color: black; font-size: small; font-weight: bold;">Print</span>
                                     </button>
-
+    
                                     <button class="btn mt-3" type="button" data-toggle="modal" data-target="#excelModal" onclick="excelmodel()">
                                         <i class="fas fa-file-import" aria-hidden="true" style="font-size:22px;color:navy;"></i>
                                         <br><span style="color: black; font-size: small; font-weight: bold;">Import</span>
@@ -209,22 +210,26 @@
                                 </div>
                             </div>
                         </div>
-                    </div><br>
-
-                   
+                    </div>
+                    <br>
                     <br>
                 </div>
             </div>
+        </div>
+    </div>
+    
+       
+            
 
 
 
-            <div class="row pt-0 m-0">
-                <div class="card p-0 bg-light bs" style="height: 100rem;">
-                    <div class="row m-0 p-0 pt-3">
-                        <div class="col-sm-12 col-lg-3">
-                            <h4 class="tb fw-bolder pt-2 text-secondary">DEBIT NOTE</h4>
-                        </div>
-                    </div>
+    <div class="row h-100 d-flex align-items-center justify-content-center">
+        <div class="card p-0 bg-light bs" style="height: 100rem; width: 65%;">
+            <div class="row m-0 p-0 pt-3">
+                <div class="col-sm-12 col-lg-3">
+                    <h4 class="tb fw-bolder pt-2 text-secondary">DEBIT NOTE</h4>
+                </div>
+            </div>
 
                     <div class="row">
                         <div class="col-md-4">
@@ -541,6 +546,7 @@
         </div>
     </div>
 </div>
+
 <script>
     document.getElementById('fromDate').addEventListener('change', updateMinDate);
     function updateMinDate() {
