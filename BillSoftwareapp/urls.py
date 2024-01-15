@@ -48,9 +48,12 @@ urlpatterns = [
     path('bankdata1',views.bankdata1,name='bankdata1'),
     path('debthistory',views.debthistory,name='debthistory'),
     path('delete_debit/<int:id>',views.delete_debit,name='delete_debit'),
-    path('details_debitnote/<int:id>',views.details_debitnote,name='details_debitnote'),
+    path('details_debitnote/<int:id>/', views.details_debitnote, name='details_debitnote'),
+
     path('edit_debitnote/<int:id>',views.edit_debitnote,name='edit_debitnote'),
     path('history_debitnote/<int:id>',views.history_debitnote,name='history_debitnote'),
+    path('update_debitnote/<int:id>',views.update_debitnote,name='update_debitnote'),
+    path('sharedebitToEmail/<int:id>',views.sharedebitToEmail,name='sharedebitToEmail'),
 
    
 

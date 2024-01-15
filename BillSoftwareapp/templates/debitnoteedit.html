@@ -85,7 +85,8 @@
                 </div> -->
                 <p></p>
 
-                <form action="{% url 'update_debitnote' pdebt.pdebitid %}" method="post"  enctype="multipart/form-data" onsubmit="return validatedebit()" novalidate>
+                <form action="{% url 'update_debitnote' pdebt_id %}" method="post" enctype="multipart/form-data" onsubmit="return validatedebit()" novalidate>
+
                     {% csrf_token %}
                     <div class="page-content">
                         <div class="card radius-15">

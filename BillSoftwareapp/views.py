@@ -1,19 +1,41 @@
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User, auth
-from . models import *
-from .models import purchasedebit, purchasedebit1 
-from .models import modules_list
-import json
-from django.db.models import F
-from django.http.response import JsonResponse
-from django.http.response import JsonResponse, HttpResponse
-from django.core.serializers.json import DjangoJSONEncoder
-from django.utils import timezone
-from django.contrib import messages
-from django.utils.crypto import get_random_string
-from django.contrib.auth.decorators import login_required
 from django.utils.text import capfirst
+from django.contrib import messages
+from . models import *
+import json
+
+from django.http.response import JsonResponse
+from django.utils.crypto import get_random_string
 from datetime import date
+from datetime import timedelta
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.template.response import TemplateResponse
+from django.db.models import F
+from django.http import Http404
+from django.http.response import JsonResponse, HttpResponse
+
+from django.template.loader import get_template
+
+from django.http import JsonResponse
+from django.db.models import Sum
+from django.core.mail import send_mail, EmailMessage
+from django.conf import settings
+from io import BytesIO
+
+from django.db.models import F
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from .models import company
+
+from django.db.models import Max
 
 # Create your views here.
 
@@ -727,6 +749,7 @@ def delete_debit(request,id):
   pdebt.delete()
   return redirect('view_purchasedebit')
 
+
 def details_debitnote(request,id):
   sid = request.session.get('staff_id')
   staff =  staff_details.objects.get(id=sid)
@@ -775,3 +798,92 @@ def history_debitnote(request,id):
   hsty= DebitnoteTransactionHistory.objects.filter(debitnote=id,company=cmp)
   context = {'staff':staff,'allmodules':allmodules,'hsty':hsty,'id':id}
   return render(request,'debitnotehistory.html',context)
+
+def update_debitnote(request,id):
+  if request.method =='POST':
+    sid = request.session.get('staff_id')
+    staff = staff_details.objects.get(id=sid)
+    cmp = company.objects.get(id=staff.company.id)  
+    partys = party.objects.get(id=request.POST.get('customername'))
+    pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
+    pdebt.party = partys
+    pdebt.debitdate = request.POST.get('debitdate')
+    pdebt.billno = request.POST.get('bill_no')
+    pdebt.billdate = request.POST.get('billdate')
+    pdebt.supply  = request.POST.get('placosupply')
+    pdebt.subtotal =float(request.POST.get('subtotal'))
+    pdebt.grandtotal = request.POST.get('grandtotal')
+    pdebt.igst = request.POST.get('igst')
+    pdebt.cgst = request.POST.get('cgst')
+    pdebt.sgst = request.POST.get('sgst')
+    pdebt.taxamount = request.POST.get("taxamount")
+    pdebt.adjustment = request.POST.get("adj")
+    pdebt.payment_type = request.POST.get("method")
+    pdebt.cheque_no = request.POST.get("cheque_id")
+    pdebt.upi_no = request.POST.get("upi_id")
+    pdebt.paid_amount = request.POST.get("advance")
+    pdebt.balance_amount = request.POST.get("balance")
+
+    pdebt.save()
+
+    product = tuple(request.POST.getlist("product[]"))
+    qty = tuple(request.POST.getlist("qty[]"))
+    total = tuple(request.POST.getlist("total[]"))
+    discount = tuple(request.POST.getlist("discount[]"))
+
+    purchasedebit1.objects.filter(pdebit=pdebt,company=cmp).delete()
+    if len(total)==len(discount)==len(qty):
+      mapped=zip(product,qty,discount,total)
+      mapped=list(mapped)
+      for ele in mapped:
+        itm = ItemModel.objects.get(id=ele[0])
+        purchasedebit1.objects.create(product =itm,qty=ele[1],discount=ele[2],total=ele[3],pdebit=pdebt,company=cmp)
+
+    DebitnoteTransactionHistory.objects.create(debitnote=pdebt,company=cmp,staff=staff,action='Updated')
+    return redirect('view_purchasedebit')
+
+  return redirect('view_purchasedebit')
+
+
+def sharedebitToEmail(request,id):
+  if request.user:
+        try:
+            if request.method == 'POST':
+                emails_string = request.POST['email_ids']
+
+                # Split the string by commas and remove any leading or trailing whitespace
+                emails_list = [email.strip() for email in emails_string.split(',')]
+                email_message = request.POST['email_message']
+                print(emails_list)
+
+                sid = request.session.get('staff_id')
+                staff =  staff_details.objects.get(id=sid)
+                cmp = company.objects.get(id=staff.company.id) 
+               
+                pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
+                pitm = purchasedebit1.objects.filter(pdebit=pdebt,company=cmp)
+                        
+                context = {'pdebt':pdebt, 'cmp':cmp,'pitm':pitm}
+                template_path = 'company/debitnote_file_mail.html'
+                template = get_template(template_path)
+
+                html  = template.render(context)
+                result = BytesIO()
+                pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+                pdf = result.getvalue()
+                filename = f'DEBIT NOTE - {pdebt.pdebitid}.pdf'
+                subject = f"DEBIT NOTE - {pdebt.pdebitid}"
+                email = EmailMessage(subject, f"Hi,\nPlease find the attached DEBIT NOTE - File-{pdebt.pdebitid}. \n{email_message}\n\n--\nRegards,\n{cmp.company_name}\n{cmp.address}\n{cmp.state} - {cmp.country}\n{cmp.contact}", from_email=settings.EMAIL_HOST_USER, to=emails_list)
+                email.attach(filename, pdf, "application/pdf")
+                email.send(fail_silently=False)
+
+                msg = messages.success(request, 'Debit note file has been shared via email successfully..!')
+                return redirect(details_debitnote,id)
+        except Exception as e:
+            print(e)
+            messages.error(request, f'{e}')
+            return redirect(details_debitnote, id)
+   
+
+
+    

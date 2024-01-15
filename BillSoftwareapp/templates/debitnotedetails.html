@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-{% load social_share %}
+
 {% load static %}
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -206,7 +206,7 @@
                                 <div class="col-md-4">
 
 
-                                    <h3 class="mb-3">DEBIT NOTE DETAILS</h3> 
+                                    <center><h3 class="mb-3">DEBIT NOTE DETAILS</h3> </center>
                                 </div>
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
@@ -215,8 +215,8 @@
                                     <a class="btn ml-4" id="pdflink"><i class="fa fa-file-pdf" aria-hidden="true" style="font-size:22px;color: darkslateblue;"></i><br>Pdf</a>
                                     <a class="btn ml-4" onclick="toggleDropdown()"> <i class="fa fa-share" aria-hidden="true" style="font-size:22px;color: navy;"></i><br>Share</a>
                                     <div class="dropdown-content" id="myDropdown">
-                                        <ul style="margin-bottom: -1px;">{% post_to_whatsapp object_or_url "WhatsApp" %}</ul>
-                                        <!-- <ul style="margin-bottom: -1px;">{% send_email object.title "{{object.title}}" object_or_url "Email" %}</ul> -->
+                                        <ul style="margin-bottom: -1px;"></ul>
+                                       
                                         <ul><a href="#shareBillEmail" data-bs-toggle="modal">Email</a></ul>
                                      </div>
                                     <a class="ml-4" href="{% url 'view_purchasedebit' %}" style="text-align: right; font-size: large; color: black;">
