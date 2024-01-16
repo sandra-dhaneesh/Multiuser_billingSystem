@@ -85,7 +85,7 @@
                 </div> -->
                 <p></p>
 
-                <form action="{% url 'update_debitnote' pdebt_id %}" method="post" enctype="multipart/form-data" onsubmit="return validatedebit()" novalidate>
+                <form action="{% url 'update_debitnote' pdebt.pdebitid %}" method="post" enctype="multipart/form-data" onsubmit="return validatedebit()" novalidate>
 
                     {% csrf_token %}
                     <div class="page-content">
@@ -93,7 +93,7 @@
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <h3 class="mb-3">EDIT  DEBIT  NOTE</h3>
+                                       <center> <h3 class="mb-3">EDIT  DEBIT  NOTE</h3></center>
                                     </div>
                                     <div class="col-md-7"></div>
                                     <div class="col-md-1">

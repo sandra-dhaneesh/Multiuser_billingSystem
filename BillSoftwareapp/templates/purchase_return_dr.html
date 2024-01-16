@@ -8,11 +8,17 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
-
+<link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
+<script src="path/to/jquery/jquery.min.js"></script>
+<script src="path/to/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 
 
@@ -396,29 +402,47 @@
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.pdebitid}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.party.party_name}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
-                                            <td class="clickable-row"  style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">Debit Note</td>
+                                            <td class="clickable-row"  style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.payment_type}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.grandtotal}}</td>
                                            
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.paid_amount}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.balance_amount}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
+                                            
+        
+                                    
+
+                                            
+             
+                                            
+                                            
+                                           
+                                           
+
+                                           
+        
+                                            
+                                          
                                             <td class="pt-3 m-0">
-                                                <div class="btn-group">
-                                                    <button style="border: none;background: none;" type="button" class="ropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <span class="fa fa-ellipsis-v text-dark fs-1 ps-"></span>
-                                                    </button>
+                                                <div class="dropdown-toggle" href="#" data-toggle="dropdown"> 
+                                                 
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item fw-bold tb hide_table_text_v" href="{% url 'details_debitnote' p.pdebitid %}"><span class="fa fa-eye pe-2 tg " style="color: green;"></span> View</a></li>
-                                                      <li><a class="dropdown-item fw-bold tb hide_table_text_v" href="{% url 'edit_debitnote' p.pdebitid %}"><span class="fa fa-edit pe-2 tg " style="color: blue;"></span> Edit</a></li>
-                                                      <li><a class="dropdown-item fw-bold tb hide_table_text_v" href="{% url 'history_debitnote' p.pdebitid %}"><span class="fa fa-history pe-2 tg " style="color: black;"></span> History</a></li>
+                                                        <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="viewDebitnote('{{p.pdebitid}}')"><span class="fa fa-eye pe-2 tg " style="color: green;"></span> View</a></li>
+                                                      <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="editDebitnote('{{p.pdebitid}}')"><span class="fa fa-edit pe-2 tg " style="color: blue;"></span> Edit</a></li>
+                                                      <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="historyDebitnote('{{p.pdebitid}}')"><span class="fa fa-history pe-2 tg " style="color: black;"></span> History</a></li>
                                                       <li><a class="dropdown-item fw-bold tb hide_table_text_d" onclick="deletedebt('{{p.pdebitid}}')"><span class="fa fa-trash tr" style="padding-inline-start: 0.1rem;padding-inline-end:0.7rem ;color: red;"></span> Delete</a></li>
                                                     </ul>
+                                                    
                                                 </div>
                                             </td>
                                         </tr>
+                                        
+                                        
                                         {% endfor %}
+                                    
                                     </tbody>
+                                
                                 </table>
                                 <p id="emptyMessage" style="text-align: center;">
                                     <br><br><br>
@@ -712,6 +736,18 @@
 </script>
 
 <script>
+    function editDebitnote(Id)
+    {
+        window.location.href = "{% url 'edit_debitnote' 0 %}".replace('0', Id);
+    }
+    function historyDebitnote(Id)
+    {
+        window.location.href = "{% url 'history_debitnote' 0 %}".replace('0', Id);
+    }
+    function viewDebitnote(Id)
+    {
+        window.location.href = "{% url 'details_debitnote' 0 %}".replace('0', Id);
+    }
     function deletedebt(Id)
     {
         swal({
