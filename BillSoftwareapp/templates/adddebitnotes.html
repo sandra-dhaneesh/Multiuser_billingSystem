@@ -177,14 +177,14 @@
             <label class="col-form-label">Return No.</label>
             <input type="text" class="form-control border-secondary" name="pdebitid" id="pdebitid" value="{{count}}" style="color: black;background-color: white;">
             <label class="col-form-label">Bill No.</label>
-            <select class="form-control border-secondary" name="bill_no" id="bill_no" style="color: black;background-color: white;">
-                <option value="" selected hidden>Select</option>
+            <select class="form-control border-secondary" name="bill_no" id="bill_no"  style="color: black;background-color: white;">
+                <option value="{{pdebt.bill_no}}" selected hidden>Select</option>
                 <!-- Options will be dynamically added here using JavaScript -->
             </select>
         
             <label class="col-form-label">Bill Date</label>
             <select class="form-control border-secondary" name="billdate" id="billdate" style="color: black;background-color: white;">
-                <option value="" selected hidden>Select</option>
+                <option value="{{pdebt.billdate}}" selected hidden>Select</option>
                 <!-- Options will be dynamically added here using JavaScript -->
             </select>
             <label class="col-form-label"> Date</label>
