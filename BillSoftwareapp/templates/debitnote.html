@@ -1,0 +1,330 @@
+{% extends 'staff/base.html' %}
+{% block content %}
+{% load static %}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
+
+<!-- Include jQuery.table2excel plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+<!-- Include jQuery from a CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!-- Include jsPDF-AutoTable plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.16/jspdf.plugin.autotable.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- Add these links to include the required libraries -->
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    #sidebar {
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        text-align: center;
+    }
+
+    #content {
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Align content to the right */
+    }
+
+    form {
+        width: 50%; /* Adjusted form width for better responsiveness */
+        max-width: 100px; /* Added maximum width for larger screens */
+        margin: 50px 0; /* Center the form on the page */
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+    table {
+        width: 100%;
+        max-width: 80%; /* Adjust the max-width according to your needs */
+        border-collapse: collapse;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color:#add8e6;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        color: #000000;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+        form {
+            width: 100%;
+            max-width: none; /* Remove max-width for smaller screens */
+        }
+
+        table {
+            overflow-x: auto;
+        }
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<div id="sidebar">
+    <button id="addDebitNoteBtn" onclick="openDebitNoteForm()">+</button>
+</div>
+
+<div id="content">
+    <h1>Create Purchase Return/ Debit Note</h1>
+
+    <!-- Debit Note form -->
+    <form action="#" class="container" method="post" enctype="multipart/form-data" style="color: #000000;">
+        {% csrf_token %}
+    
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="party_select">Select Party:</label>
+                <select id="party_select" name="party_select" class="form-control">
+                    {% for party in parties %}
+                        <option value="{{ party.id }}">{{ party.party_name }}</option>
+                    {% endfor %}
+                </select>
+                <a href="{% url 'parties_add_page' %}" class="btn btn-primary mt-2">Add party</a>
+            </div>
+    
+            <div class="col-md-6">
+                <label for="opening_balance">Opening Balance:</label>
+                {% if selected_party %}
+                    <input id="opening_balance" name="opening_balance" readonly class="form-control" value="{{ selected_party.balance }}">
+                {% else %}
+                    <input id="opening_balance" name="opening_balance" readonly class="form-control" value="N/A">
+                {% endif %}
+    
+                <label for="phoneNo">Phone No.:</label>
+                <input type="text" id="phoneNo" name="phoneNo" readonly class="form-control">
+            </div>
+        </div>
+    
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="billingAddress">Billing Address:</label>
+                <textarea id="billingAddress" name="billingAddress" readonly class="form-control"></textarea>
+            </div>
+    
+            <div class="col-md-6">
+                <label for="returnNumber">Return Number:</label>
+                <input type="text" id="returnNumber" name="returnNumber" readonly class="form-control">
+            </div>
+        </div>
+    
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="billNumber">Bill Number:</label>
+                <select id="billNumber" name="billNumber" class="form-control">
+                    <option value="bill1">Bill 1</option>
+                    <option value="bill2">Bill 2</option>
+                </select>
+            </div>
+    
+            <div class="col-md-6">
+                <label for="billDate">Bill Date:</label>
+                <select id="billDate" name="billDate" class="form-control">
+                    <option value="date1">Date 1</option>
+                    <option value="date2">Date 2</option>
+                </select>
+            </div>
+        </div>
+    
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="debitNoteDate">Debit Note Date:</label>
+                <input type="date" id="debitNoteDate" name="debitNoteDate" class="form-control">
+            </div>
+    
+            <div class="col-md-6">
+                <label for="supplySource">Supply Source:</label>
+                <select id="supplySource" name="supplySource" class="form-control">
+                    <option value="state">State</option>
+                    <option value="otherStates">Other States</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    
+
+    <!-- Table for item details -->
+    <table id="itemTable">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Items</th>
+                <th>HSN</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Tax%</th>
+                <th>Discount</th>
+                <th>Total</th>
+                <th>Field</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamically added rows go here -->
+        </tbody>
+    </table><br>
+    <button onclick="addRow()">+</button>
+    <br><br><br><br>
+
+    <!-- Additional fields for Subtotal, Tax, Adjustment, and Total -->
+    <div class="row" style="background-color: #add8e6; padding: 10px; color: #000000;">
+
+        <div class="col-md-8">
+            <label for="subtotal">Subtotal:</label>
+            <input type="text" id="subtotal" name="subtotal" readonly class="form-control">
+        </div>
+    
+        <div class="col-md-8">
+            <div id="taxFields">
+                <label for="sgst">SGST:</label>
+                <input type="text" id="sgst" name="sgst" readonly class="form-control">
+    
+                <label for="cgst">CGST:</label>
+                <input type="text" id="cgst" name="cgst" readonly class="form-control">
+    
+                <label for="igst">IGST:</label>
+                <input type="text" id="igst" name="igst" readonly class="form-control">
+            </div>
+        </div>
+    
+        <div class="col-md-8">
+            <label for="taxAmount">Tax Amount:</label>
+            <input type="text" id="taxAmount" name="taxAmount" readonly class="form-control">
+        </div>
+    
+        <div class="col-md-8">
+            <label for="adjustment">Adjustment:</label>
+            <input type="text" id="adjustment" name="adjustment" class="form-control">
+        </div>
+    
+        <div class="col-md-6">
+            <label for="total">Total:</label>
+            <input type="text" id="total" name="total" readonly class="form-control">
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+
+    <button onclick="saveDebitNote()">Save & New</button>
+    <button onclick="saveAndRedirect()">Save</button>
+
+    <!-- Image and message when no data available -->
+    <div id="noData" style="display: none;">
+        <img src="no_data_image.jpg" alt="No Data Available">
+        <p>No data available for Debit Note</p>
+    </div>
+</div>
+
+
+<script>
+    // JavaScript functions for dynamic behavior
+    function openDebitNoteForm() {
+        document.getElementById('debitNoteForm').style.display = 'block';
+        document.getElementById('noData').style.display = 'none';
+        // Add logic to populate dropdowns, etc.
+    }
+
+    function addParty() {
+        // Add logic to dynamically add a party to the dropdown
+    }
+
+    function saveDebitNote() {
+        // Add logic to save the debit note and open a new create page
+    }
+
+    function saveAndRedirect() {
+        // Add logic to save the debit note and redirect to the listing page
+    }
+
+    let rowIndex = 1;
+
+    function addRow() {
+        // Get the table body
+        let tableBody = document.getElementById('itemTable').getElementsByTagName('tbody')[0];
+
+        // Create a new row
+        let newRow = tableBody.insertRow(tableBody.rows.length);
+
+        // Insert cells into the row
+        let indexCell = newRow.insertCell(0);
+        let itemsCell = newRow.insertCell(1);
+        let hsnCell = newRow.insertCell(2);
+        let quantityCell = newRow.insertCell(3);
+        let priceCell = newRow.insertCell(4);
+        let taxCell = newRow.insertCell(5);
+        let discountCell = newRow.insertCell(6);
+        let amountCell = newRow.insertCell(7);
+
+        // Assign values or input elements to the cells as needed
+        indexCell.textContent = rowIndex;
+        itemsCell.innerHTML = '<input type="text" name="items[]">';
+        // Add similar logic for other cells
+
+        // Increment the rowIndex for the next row
+        rowIndex++;    
+        function redirectToPartiesAddPage() {
+        // Assuming the URL of the page you want to redirect to is '/parties_add_page/'
+        window.location.href = '/parties_add_page/';
+    }
+
+    }
+</script>
+
+
+{% endblock %}

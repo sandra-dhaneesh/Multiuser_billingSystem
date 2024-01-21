@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'staff/staff_base.html' %}
 {% block content %}
 {% load static %}
 <meta charset="UTF-8">
@@ -31,13 +31,13 @@
         }
 
         #customer_div {
-            background-color: rgba(144, 211, 117, 0.098);
+            background-color: rgb(0, 0, 139,.397);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     .card-body{
-        box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.397);
+        box-shadow: 2px 2px 10px 3px rgba(0, 0, 139, 0.397);
         border-radius: 1vh;
         justify-content: center;
          align-items: center;
@@ -53,7 +53,7 @@
         border-top: 1px solid black;
         border-left: 1px solid black;
         border-right: 1px solid black;
-        background-color: rgba(0, 195, 255, 0.205);
+        background-color: rgb(0, 0, 139,.397);
     }
     #tab_logic tbody td{
         border-bottom: 1px solid black;
@@ -85,12 +85,12 @@
 
     .selectize-input {
         height: 5vh;
-        border-color: #54B4D3;
+        border-color: darkblue;
         border-radius: 5px;
     }
 
     .option:hover {
-        background-color: #3B71CA;
+        background-color: darkblue;
         color: white;
     }   
 
@@ -328,7 +328,7 @@
                                    
                                    
                                
-                                            <div class="col-md-5 table-responsive-md mt-2 clearfix" id="tab_logic_total" style=" color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: -2vh; background-color: rgba(0, 195, 255, 0.205); ">
+                                            <div class="col-md-5 table-responsive-md mt-2 clearfix" id="tab_logic_total" style=" color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: -2vh; background-color:rgb(0, 0, 139,.397); ">
                                                 <div class="p-3">
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label class="text-center">Sub Total</label></div>
@@ -399,7 +399,7 @@
                                         <div class="row">
                                             <div class="col-md-4"></div> <!-- Adjust the width of the left empty column -->
                                             
-                                            <div class="col-md-4 table-responsive-md mt-3" id="tab_logic_total" style="color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: 10vh; background-color: rgba(0, 195, 255, 0.205);">
+                                            <div class="col-md-4 table-responsive-md mt-3" id="tab_logic_total" style="color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: 10vh; background-color: rgb(0, 0, 139,.397);">
                                                 <div class="p-3">
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Paid Off</label></div>
@@ -425,15 +425,13 @@
                             
                                     <div class="row">
                                         <div class="col-md-1 mt-4"></div>
-                                        <div class="col-md-5 mt-3 d-flex" style="margin-left:5vh">
-                                           
-                                            <input type="submit" class="btn btn-primary bg-gradient me-3" name="Next" value="SAVE & NEXT"></input> 
-                                            <input type="submit" class="btn btn-primary bg-gradient" name="Save" value="SAVE"></input>
+                                        <div class="col-md-5 mt-3 d-flex" style="margin-left: 5vh">
+                                            <input type="submit" class="btn" style="background-color: darkblue; color: white;" name="Next" value="SAVE & NEXT"></input>
+                                            <!-- Add margin to create space between buttons -->
+                                            <input type="submit" class="btn" style="background-color: darkblue; color: white; margin-left: 10px;" name="Save" value="SAVE"></input>
                                         </div>
                                     </div>
                                     
-                                    
-                                </div>
                             </div>
                         </div>
                         </div>
@@ -475,7 +473,7 @@
                                     <div>
                                         <p></p>
                                         <hr class="p-0 m-0">
-                                        <div style="background-color: rgba(0, 195, 255, 0.205);" class="p-3 pb-0 mb-0">
+                                        <div style="background-color:rgb(0, 0, 139,.397);" class="p-3 pb-0 mb-0">
                                             <div class="">
                                                 <div class="row pb-0 mb-0">
                                                     <div id="gsthead" class="col text-center pb-2" >
@@ -562,7 +560,7 @@
                                                     </div>
 
                                                     <div class="text-start mt-5">
-                                                        <button id="gstnxt" class="btn btn-primary bg-gradient" type="button">NEXT</button>
+                                                        <button id="gstnxt" class="btn" style="background-color: darkblue; color: white;" type="button">NEXT</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -595,8 +593,8 @@
                                                     </div>
 
                                                     <div class="text-start mt-5">
-                                                        <button id="creditnxt" class="btn btn-primary bg-gradient" type="button">NEXT</button>
-                                                        <button id="creditprev" class="btn btn-primary bg-gradient  me-3" type="button">PREVIOUS</button>
+                                                        <button id="creditnxt" class="btn" style="background-color: darkblue; color: white;" type="button">NEXT</button>
+                                                        <button id="creditprev" class="btn" style="background-color: darkblue; color: white;" type="button">PREVIOUS</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -621,8 +619,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="text-start mt-5">
-                                                        <button id="fieldprev" class="btn btn-primary bg-gradient  me-3" type="button">PREVIOUS</button>
-                                                        <button class="btn btn-primary bg-gradient" type="button" id="customersave">SAVE</button>
+                                                        <button id="fieldprev" class="btn" style="background-color: darkblue; color: white;" type="button">PREVIOUS</button>
+                                                        <button class="btn" style="background-color: darkblue; color: white;" type="button" id="customersave">SAVE</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -681,7 +679,7 @@
                             <div>
                                 <p></p>
                                 <hr class="p-0 m-0">
-                                <div style="background-color: rgba(0, 195, 255, 0.205);" class="p-3 pb-0 mb-0">
+                                <div style="background-color:rgb(0, 0, 139,.397);" class="p-3 pb-0 mb-0">
                                     <div class="">
                                         <div class="row pb-0 mb-0">
                                             <div id="prc_" class="col text-center pb-2" >
@@ -744,7 +742,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-start mt-5">
-                                                <button id="next_btn" class="btn btn-primary bg-gradient" type="button">Next</button>
+                                                <button id="next_btn" class="btn" style="background-color: darkblue; color: white;" type="button">Next</button>
                                             </div>
                                         </div>
                                     </div>
@@ -777,8 +775,8 @@
                                                 </div>
                                             </div>
                                             <div class="text-start mt-5">
-                                                <button id="prev_btn" class="btn btn-primary bg-gradient  me-3" type="button">PREVIOUS</button>
-                                                <button class="btn btn-primary bg-gradient" type="button" id="itemsave">SAVE</button>
+                                                <button id="prev_btn" class="btn" style="background-color: darkblue; color: white;" type="button">PREVIOUS</button>
+                                                <button class="btn" style="background-color: darkblue; color: white;" type="button" id="itemsave">SAVE</button>
                                             </div>
                                         </div>
                                     </div>

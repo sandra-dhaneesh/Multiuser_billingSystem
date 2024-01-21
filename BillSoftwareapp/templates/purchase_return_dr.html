@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'staff/staff_base.html' %}
 {% load static %}
 {% block content %}
 
@@ -243,7 +243,7 @@
                         </div>
                         <div class="col-md-6"></div>
                         <div class="col-md-2">
-                            <a class="btn btn-primary bg-gradient" href="{% url 'add_debitnote' %}" style="color: white;"> 
+                            <a class="btn" href="{% url 'add_debitnote' %}" style="color: white; background-color: darkblue;"> 
                                 <i class="fa fa-plus border-dark " aria-hidden="true" style="color: white;"></i> &nbsp;Add Debit Note
                             </a>
                         </div>

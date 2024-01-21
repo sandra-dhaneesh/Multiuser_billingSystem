@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
@@ -83,8 +84,8 @@
     }
 
     .save-button {
-        background-color:darkblue;
-        border-color: darkblue; 
+        background-color: #007bff;
+        border-color: #007bff; 
         color: #fff; 
         margin-right: 1rem;
     }
@@ -100,9 +101,9 @@
     <form method="POST" action="{% url 'save_parties' %}" class="p-5" enctype="multipart/form-data" novalidate
     id="forms" >
     {% csrf_token %}
-    <div class="modal fade" id="customercreation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <div class="col-md-3">
                 <a class="text-dark" style="font-size: 1.5rem;">Add Party</a>
             </div>
             <div class="col-md-9 row" style="margin-top: 3vw;">
