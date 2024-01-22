@@ -7,6 +7,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
+<script src="path/to/jquery/jquery.min.js"></script>
+<script src="path/to/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
@@ -178,11 +185,10 @@
         display: none
     }
 </style>
-
-<div class="body-wrapper">
-    <br><br><br>
-    <div class="row p-0 m-0">
-        <div class="col-12  p-0 m-0">
+<div class="content-body">
+    <div class="container-fluid">
+        <!-- row for image and content -->
+        <div class="card-body">
             <div class=" bg-light bg-light pb-0 mb-0 p-2" style="height:100%;width:100%">
                 <!-- <div class="d-flex justify-content-center pt-4">
                     <a href="" id="b1" class="btn  text-white"
@@ -225,10 +231,10 @@
                                 </div>
                             </div>
                             <div class="row pb-0 mb-0 mt-1" style="margin-top:-2vh">
-                                <div id="templates" class="col text-center pb-2 pt-3" style="background-color: rgba(0, 195, 255, 0.205);"  >
+                                <div id="templates" class="col text-center pb-2 pt-3" style="background-color: rgb(0, 0, 139,.397);"  >
                                     <a class="fw-bolder fs-4" style="color: gray; text-decoration: none; " >TEMPLATE</a>
                                 </div>
-                                <div id="slip" class="col text-center pb-2 pt-3" style="background-color: rgba(0, 195, 255, 0.205);" >
+                                <div id="slip" class="col text-center pb-2 pt-3" style="background-color: rgb(0, 0, 139,.397);" >
                                     <a class="fw-bolder fs-4" style="color: gray; text-decoration: none;" >DEBIT SLIP</a>
                                 </div>
                             </div>
@@ -242,7 +248,7 @@
                                                 <div id="ember2512" class="tooltip-container ember-view ribbon text-ellipsis">
                                                     <section>
                                                         <div class="text-center">
-                                                            <h2 class="text-info">DEBIT NOTE</h2>
+                                                            <h2 class="text" style="color: rgb(0, 0, 139,.397);">DEBIT NOTE</h2>
                                                         </div>
                                                     </section>
                                                     <section class="top-content ">
@@ -274,7 +280,7 @@
                                                                 </div>
                                                                 <div class="col-5">
                                                                     <p><b>TO</b>,</p>
-                                                                    <h5 class="text-info" style='margin-left: 4vh;'>{{pdebt.party.party_name}}</h5>
+                                                                    <h5 class="text" style='margin-left: 4vh; color: rgb(0, 0, 139,.397);'>{{pdebt.party.party_name}}</h5>
                                                                     <p class="address col-9" style="margin-top: -1vh; margin-left: 4vh;"> {{ pdebt.party.address}} </p>
                                                                 </div>
                                                             </div>
@@ -285,7 +291,7 @@
 
                                                     <section class="product-area mt-4">
                                                         <table class=" table table-hover table-bordered border-dark" id="table1">
-                                                            <thead class=" bg-info">
+                                                            <thead style="background-color: rgb(0, 0, 139,.397);">
                                                                 <tr>
                                                                     <td style="text-align: center; font-weight:bold; color:black ">Items</td>
                                                                     <td style="font-weight:bold; color:black ">HSN</td>
@@ -387,7 +393,7 @@
                                     <div  id="whatToPrint2"  class="printTemplates template2"  style="display: none;">
                                         <div class="my-5 page" size="A4" >
                                             <div id="printdiv2">
-                                                <div class="row px-5 py-4" style="background-color:rgba(3, 161, 252, 0.7);">
+                                                <div class="row px-5 py-4" style="background-color:rgb(0, 0, 139,.397);">
                                                     <div class="col-md-4"></div>
                                                     <div class="col-md-4 d-flex justify-content-center">
                                                         <center ><h2 class="text-dark">DEBIT NOTE</h2></center>
@@ -404,7 +410,7 @@
                                                         <div class="col-12">
                                                             <div class="row  pb-2 mt-3">
                                                                 <div class="col-4 pl-0">
-                                                                    <label class="text-dark w-100 p-1 mb-1" style="background-color: rgb(177, 186, 185); border-top-right-radius: 4vh; border-bottom-right-radius: 4vh;" ><b>BILLING ADDRESS</b></label>
+                                                                    <label class="text-dark w-100 p-1 mb-1" style="background-color: rgb(0, 0, 139,.397); border-top-right-radius: 4vh; border-bottom-right-radius: 4vh;" ><b>BILLING ADDRESS</b></label>
                                                                     <!-- <h5 class="text-dark" style="font-weight: bold;">{{pdebt.staff.first_name}} {{pdebt.staff.last_name}}</h5> -->
                                                                     <p class="address" style="font-weight: bold;color: #000;">
                                                                         <br>
@@ -428,7 +434,7 @@
                                         
                                                     <section class="product-area mt-2">
                                                         <table class="table table-hover table-bordered " id="table2">
-                                                            <thead style="background-color: rgba(3, 161, 252, 0.7);">
+                                                            <thead style="background-color: rgb(0, 0, 139,.397);">
                                                                 <tr class="template3tablehead">
                                                                     <th class="text-center" style="color:black">Items</th>
                                                                     <th class="text-center" style="color:black">HSN</th>
@@ -531,7 +537,7 @@
                                         <div class="my-5 page"  size="A4" >
                                             <div class="" id="printdiv3">
                                                 <div class="row">
-                                                    <div class="col-sm-12" style="background-image: linear-gradient(#3dd9eb, #615dff); color: black;">
+                                                    <div class="col-sm-12" style="background-image: linear-gradient(rgb(0, 0, 139,.397),#00008b ); color: black;">
                                                         <br>
                                                         <p style="font-size: 4vh; text-align: center;">DEBIT NOTE</p>
                                                         <p style=" text-align: center;"> 
@@ -575,7 +581,7 @@
                                                     <div class="col-md-10"><br>
                                                         <table class="table table-hover table-bordered  template3table" id="table3" style="border:1px solid black">
                                                             <thead >
-                                                                <tr class="template3tablehead" style="background-color: #3dd9eb;">
+                                                                <tr class="template3tablehead" style="background-color:rgb(0, 0, 139,.397)">
                                                                     <th class="text-center"  style="color:black">Items</th>
                                                                     <th class="text-center"  style="color:black">HSN</th>
                                                                     <th class="text-center"  style="color:black">Quantity</th>
@@ -865,7 +871,7 @@
 
 <div class="modal fade" id="shareBillEmail" tabindex="-1" aria-labelledby="shareBillEmailLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style=" background-color:rgb(85, 188, 248);">
+      <div class="modal-content" style=" background-color:rgb(0, 0, 139,.397);">
         <div class="modal-header" style="border-bottom: 1px solid #ffffff;">
           <h5 class="modal-title text-dark" id="shareBillEmailLabel">Share Debitnote Via Email</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

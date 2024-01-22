@@ -2,23 +2,27 @@
 {% block content %}
 {% load static %}
 
-<div class="container col-9">
-    <br><br><br><br><br><br><br>
-    <div class="container col-10 mr-3">
-        <div class="container col -10" >
-            <div class="row">
-                
-                <div class="col">
-                    <img style="mix-blend-mode: multiply;" src="{% static 'images/debit.jpg' %}" width="500" height="500" alt="">
+<div class="content-body">
+    <div class="container-fluid">
+        <!-- row for image and content -->
+        <div class="row">
+            <!-- column for image -->
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card">
+                    <img style="mix-blend-mode: multiply;" src="{% static 'images/debit.jpg' %}" class="img-fluid" alt="">
                 </div>
-
-                <div class="col m-2">
-                    <br><br><br>
-                    <center><h3><img src="static/img/logo/logo3.png" alt="billing-software">MultiUser Billing Software</h3></center><br>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut quo, sit quaerat consectetur doloribus molestias dicta. Deserunt officia libero fugiat accusamus. Repellat aperiam, ipsa ad sed eum dolorem corrupti ipsam.</p>
-                    <center><a href="{% url 'add_debitnote' %}" class="btn btn-primary">Add a party</a></center>
+            </div>
+            <!-- column for content -->
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card" style="margin-top:300px;"> <!-- Adjust the margin-bottom value as needed -->
+                    <div class="stat-widget-two card-body">
+                        <div class="stat-content">
+                            <h3><img src="{% static 'img/logo/logo3.png' %}" alt="billing-software">MultiUser Billing Software</h3><br>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut quo, sit quaerat consectetur doloribus molestias dicta. Deserunt officia libero fugiat accusamus. Repellat aperiam, ipsa ad sed eum dolorem corrupti ipsam.</p>
+                            <a href="{% url 'add_debitnote' %}" class="btn btn-primary">Add a party</a>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

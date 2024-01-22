@@ -156,31 +156,32 @@
     }
 
 </style>
+<div class="content-body">
+    <div class="container-fluid">
+        <!-- row for image and content -->
+        <div class="card-body d-flex justify-content-center align-items-center">
+            <a href="" id="b1" class="btn text-dark"
+                style="margin-right: 10px; background-color: rgb(154, 205, 50);border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                Add Sale <i class="fa fa-plus"></i>
+            </a>
+            <a href="" id="b2" class="btn text-white"
+                style="margin-right: 10px;background-color: rgb(218, 112, 214);border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                Add Purchase <i class="fa fa-plus"></i>
+            </a>
+            <a href="" id="b3" class="btn text-dark"
+                style="border-radius: 20px;border: 1px solid rgb(0, 0, 0);background-color: aqua;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                Add More <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
 
-
-<div class="body-wrapper">
-    <br><br><br>
+<p></p>
     
-     <div class="d-flex justify-content-center pt-4">
-        <a href="" id="b1" class="btn  text-dark"
-            style="margin-right: 10px; background-color: rgb(154, 205, 50);border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            Add Sale <i class="fa fa-plus"></i>
-        </a>
-        <a href="" id="b2" class="btn  text-white"
-            style="margin-right: 10px;background-color: rgb(218, 112, 214);border-radius: 10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            Add Purchase <i class="fa fa-plus"></i>
-        </a>
-        <a href="" id="b3" class="btn text-dark"
-            style="border-radius: 20px;border: 1px solid rgb(0, 0, 0);background-color: aqua;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            Add More <i class="fa fa-plus"></i>
-        </a>
-    </div> 
-    <p></p>
    
     <div class="row ps-3 pe-3 m-0 d-flex align-items-center justify-content-center">
         <div class="col-sm-12 ps-2 pe-3">
             <div class="row pt-0 m-0">
-                <div class="card p-0 bg-light bs mx-auto my-5 w-75"> <!-- Added mx-auto and my-5 classes to center the card -->
+                <div class="card p-0 bg-light bs mx-auto my-5 w-85"> <!-- Added mx-auto and my-5 classes to center the card -->
                     <br>
                     <div class="row">
                         <div class="container">
@@ -223,40 +224,41 @@
             </div>
         </div>
     </div>
+
+    
     
        
             
 
 
-
     <div class="row h-100 d-flex align-items-center justify-content-center">
-        <div class="card p-0 bg-light bs" style="height: 100rem; width: 65%;">
+        <div class="card p-0 bg-light bs" style="height: 100rem; width: 76%;"> 
             <div class="row m-0 p-0 pt-3">
                 <div class="col-sm-12 col-lg-3">
                     <h4 class="tb fw-bolder pt-2 text-secondary">DEBIT NOTE</h4>
                 </div>
             </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input id="search_input" style="padding-inline-start: 2rem; margin-left: 1vh; " class="w-100 border-secondary text-dark pt-1 pb-1 pe-1 rounded" type="text" placeholder=" Search">
-                        </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-2">
-                            <a class="btn" href="{% url 'add_debitnote' %}" style="color: white; background-color: darkblue;"> 
-                                <i class="fa fa-plus border-dark " aria-hidden="true" style="color: white;"></i> &nbsp;Add Debit Note
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12" style="margin-left: 2vh;">
-                            <div class="mt-3" style="overflow: scroll;height: 100rem; width: 98%;"  id="tablediv">
-                                <table class="table table-bordered table-info table-striped tb table-responsive w-100" id="debittable"  style="text-align: center;">
+    
+            <div class="row">
+                <div class="col-md-4">
+                    <input id="search_input" style="padding-inline-start: 2rem; margin-left: 1vh;" class="w-100 border-secondary text-dark pt-1 pb-1 pe-1 rounded" type="text" placeholder=" Search">
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-2">
+                    <a class="btn" href="{% url 'add_debitnote' %}" style="color: white; background-color: darkblue;">
+                        <i class="fa fa-plus border-dark " aria-hidden="true" style="color: white;"></i> &nbsp;Add Debit Note
+                    </a>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-md-12" style="margin-left: 2vh;">
+                    <div class="mt-3" style="overflow: scroll; height: 100rem; width: 93%;" id="tablediv">
+                                <table class="table table-bordered table-info table-striped tb table-responsive w-100" id="debittable"  style="text-align: center; background-color: rgb(0, 0, 139,.397);">
                                     <thead >
-                                        <tr class="fs-2 tb" >
-                                            <th class="bg-secondary text-white" >#</th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">DATE &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                        <tr class="fs-2 tb" style="width: 70%;" >
+                                            <th class="bg-secondary text-white" style="position: sticky; top: 0;z-index: 1;">#</th>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">DATE &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="exact-match" selected>Equal to</option>
@@ -270,7 +272,7 @@
                                                     
                                                 </div>
                                                </th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">REF.NO &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">REF.NO &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="equal-to" selected>Equal to</option>
@@ -283,7 +285,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">PARTY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">PARTY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -296,7 +298,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">CATEGORY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">CATEGORY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -309,7 +311,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;"> TYPE &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;"> TYPE &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -322,21 +324,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">TOTAL &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
-                                                <div class="filter-dropdown">
-                                                    <select class="filter-option">
-                                                        <option value="equal-to" selected>Equal to</option>
-                                                        
-                                                    </select><br><br>
-                                                    <input type="number" class="filter-value" ><br><br>
-                                                    
-                                                   
-                                                        <button class="apply-filter btn btn-primary">Apply</button>
-                                                        <button class="clear-filter btn btn-info">Clear</button>
-                                                    
-                                                </div>
-                                            </th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">RECEIVED/PAID &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">TOTAL &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="equal-to" selected>Equal to</option>
@@ -350,8 +338,7 @@
                                                     
                                                 </div>
                                             </th>
-                                            
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">BALANCE  &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">RECEIVED/PAID &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="equal-to" selected>Equal to</option>
@@ -366,7 +353,22 @@
                                                 </div>
                                             </th>
                                             
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">ACTION &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">BALANCE  &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                                <div class="filter-dropdown">
+                                                    <select class="filter-option">
+                                                        <option value="equal-to" selected>Equal to</option>
+                                                        
+                                                    </select><br><br>
+                                                    <input type="number" class="filter-value" ><br><br>
+                                                    
+                                                   
+                                                        <button class="apply-filter btn btn-primary">Apply</button>
+                                                        <button class="clear-filter btn btn-info">Clear</button>
+                                                    
+                                                </div>
+                                            </th>
+                                            
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">ACTION &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -379,7 +381,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="white-space: nowrap;">BY &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">BY &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -392,7 +394,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"></th>
+                                            <th class="bg-secondary text-white" style="position: sticky; top: 0;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -537,6 +539,9 @@
             </div>
         </div>
     </div>
+    </div>
+    
+    
         
         
     <div class="modal" id="excelModal" tabindex="-1" role="dialog" aria-labelledby="excelModalLabel" aria-hidden="true">
@@ -852,6 +857,8 @@
       
     }
 </script>
+
+
 
 
 <script>
