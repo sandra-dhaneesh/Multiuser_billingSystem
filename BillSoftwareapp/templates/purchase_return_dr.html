@@ -232,7 +232,7 @@
 
 
     <div class="row h-100 d-flex align-items-center justify-content-center">
-        <div class="card p-0 bg-light bs" style="height: 100rem; width: 76%;"> 
+        <div class="card p-0 bg-light bs" style="height: 100vh; width: 76%;"> 
             <div class="row m-0 p-0 pt-3">
                 <div class="col-sm-12 col-lg-3">
                     <h4 class="tb fw-bolder pt-2 text-secondary">DEBIT NOTE</h4>
@@ -252,13 +252,13 @@
             </div>
     
             <div class="row">
-                <div class="col-md-12" style="margin-left: 2vh;">
-                    <div class="mt-3" style="overflow: scroll; height: 100rem; width: 93%;" id="tablediv">
-                                <table class="table table-bordered table-info table-striped tb table-responsive w-100" id="debittable"  style="text-align: center; background-color: rgb(0, 0, 139,.397);">
-                                    <thead >
-                                        <tr class="fs-2 tb" style="width: 70%;" >
-                                            <th class="bg-secondary text-white" style="position: sticky; top: 0;z-index: 1;">#</th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">DATE &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                <div class="col-md-12" style="margin-left:5vh;">
+                    <div class="mt-3" style="overflow: auto;max-height:80vh; width: 93%;" id="tablediv">
+                            <center><table class="table table-bordered table-info table-striped tb table-responsive w-80" id="debittable"  style="text-align: center; background-color: rgb(0, 0, 139,.397);">
+                                    <thead>
+                                        <tr class="fs-2 tb">
+                                            <th class="bg-secondary text-white">#</th>
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">DATE &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="exact-match" selected>Equal to</option>
@@ -272,7 +272,7 @@
                                                     
                                                 </div>
                                                </th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">REF.NO &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">REF.NO &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="equal-to" selected>Equal to</option>
@@ -285,7 +285,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">PARTY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">PARTY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -298,7 +298,8 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">CATEGORY NAME &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">PAYMENT TYPE &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -311,20 +312,7 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;"> TYPE &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
-                                                <div class="filter-dropdown">
-                                                    <select class="filter-option">
-                                                        <option value="contains" selected>Equal to</option>
-                                                        
-                                                    </select><br><br>
-                                                    <input type="text" class="filter-value" ><br><br>
-                                                    
-                                                   
-                                                        <button class="apply-filter btn btn-primary">Apply</button>
-                                                        <button class="clear-filter btn btn-info">Clear</button>
-                                                    
-                                                </div></th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">TOTAL &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">AMOUNT &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="equal-to" selected>Equal to</option>
@@ -338,7 +326,9 @@
                                                     
                                                 </div>
                                             </th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">RECEIVED/PAID &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                
+                                            
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">BALANCE  &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="equal-to" selected>Equal to</option>
@@ -353,22 +343,7 @@
                                                 </div>
                                             </th>
                                             
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">BALANCE  &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
-                                                <div class="filter-dropdown">
-                                                    <select class="filter-option">
-                                                        <option value="equal-to" selected>Equal to</option>
-                                                        
-                                                    </select><br><br>
-                                                    <input type="number" class="filter-value" ><br><br>
-                                                    
-                                                   
-                                                        <button class="apply-filter btn btn-primary">Apply</button>
-                                                        <button class="clear-filter btn btn-info">Clear</button>
-                                                    
-                                                </div>
-                                            </th>
-                                            
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">ACTION &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
+                                            <th class="bg-secondary text-white"style="white-space: nowrap;">ACTION &nbsp;<i class="fas fa-filter filter-button"style="color:black"></i>
                                                 <div class="filter-dropdown">
                                                     <select class="filter-option">
                                                         <option value="contains" selected>Equal to</option>
@@ -381,36 +356,50 @@
                                                         <button class="clear-filter btn btn-info">Clear</button>
                                                     
                                                 </div></th>
-                                            <th class="bg-secondary text-white"style="position: sticky; top: 0;white-space: nowrap;">BY &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
-                                                <div class="filter-dropdown">
-                                                    <select class="filter-option">
-                                                        <option value="contains" selected>Equal to</option>
+                                                <th class="bg-secondary text-white"style="white-space: nowrap;">BY &nbsp; <i class="fas fa-filter filter-button"style="color:black"></i>
+                                                    <div class="filter-dropdown">
+                                                        <select class="filter-option">
+                                                            <option value="contains" selected>Equal to</option>
+                                                            
+                                                        </select><br><br>
+                                                        <input type="text" class="filter-value" ><br><br>
                                                         
-                                                    </select><br><br>
-                                                    <input type="text" class="filter-value" ><br><br>
-                                                    
-                                                   
-                                                        <button class="apply-filter btn btn-primary">Apply</button>
-                                                        <button class="clear-filter btn btn-info">Clear</button>
-                                                    
-                                                </div></th>
-                                            <th class="bg-secondary text-white" style="position: sticky; top: 0;"></th>
-                                        </tr>
-                                    </thead>
+                                                       
+                                                            <button class="apply-filter btn btn-primary">Apply</button>
+                                                            <button class="clear-filter btn btn-info">Clear</button>
+                                                        
+                                                    </div></th>
+                                                <th class="bg-secondary text-white"></th>
+                                            </tr>
+                                        </thead>
                                     <tbody>
                                         {% for p in pdebt %}
                                         <tr><td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}" >{{forloop.counter}}</td>
-                                            <td class="clickable-row"style="color: black; " data-href="details_debitnote/{{ p.pdebitid }}">{{p.debitdate }}</td>
+                                            <td class="clickable-row" style="color:black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.debitdate }}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.pdebitid}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.party.party_name}}</td>
-                                            <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
+                                            
                                             <td class="clickable-row"  style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.payment_type}}</td>
+                                
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.grandtotal}}</td>
-                                           
-                                            <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.paid_amount}}</td>
+                                            
+                                            
+                                            
+                                            
+                                            
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.balance_amount}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
+                                          
+
+ 
+                                            
+                                            
+                                            
+                        
+
+                                            
+
                                             
         
                                     
@@ -422,15 +411,12 @@
                                            
                                            
 
-                                           
-        
-                                            
-                                          
                                             <td class="pt-3 m-0">
                                                 <div class="dropdown-toggle" href="#" data-toggle="dropdown"> 
+                                                
                                                  
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="viewDebitnote('{{p.pdebitid}}')"><span class="fa fa-eye pe-2 tg " style="color: green;"></span> View</a></li>
+                                                    <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="viewDebitnote('{{p.pdebitid}}')"><span class="fa fa-eye pe-2 tg " style="color: green;"></span> View</a></li>
                                                       <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="editDebitnote('{{p.pdebitid}}')"><span class="fa fa-edit pe-2 tg " style="color: blue;"></span> Edit</a></li>
                                                       <li><a class="dropdown-item fw-bold tb hide_table_text_v" onclick="historyDebitnote('{{p.pdebitid}}')"><span class="fa fa-history pe-2 tg " style="color: black;"></span> History</a></li>
                                                       <li><a class="dropdown-item fw-bold tb hide_table_text_d" onclick="deletedebt('{{p.pdebitid}}')"><span class="fa fa-trash tr" style="padding-inline-start: 0.1rem;padding-inline-end:0.7rem ;color: red;"></span> Delete</a></li>
@@ -446,6 +432,7 @@
                                     </tbody>
                                 
                                 </table>
+                            </center>
                                 <p id="emptyMessage" style="text-align: center;">
                                     <br><br><br>
                                     No Datas to Show
@@ -453,30 +440,38 @@
                                 <table id="excelordertable" hidden>
                                     <thead>
                                         <tr class="fs-2 tb" >
-                                           
+                                             
                                             <th>DATE</th>
                                             <th> REF.NO </th>
                                             <th> PARTY NAME </th>
-                                            <th> CATEGORY NAME </th>
-                                            <th> TYPE </th>
-                                            <th> TOTAL </th>
-                                            <th> RECIVED/PAID</th>
+                                            <th> PAYMENT TYPE </th>
+                                            <th> AMOUNT </th>
                                             <th> BALANCE </th>
+                                            <th>ACTION</th>
+                                            <th>BY</th>
+                                            <th></th>
+                                            
                                          
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for p in pdebt %}
                                         <tr>
-                                            <td  >{{p.debitdate | date:'d-m-Y'}}</td>
-                                            <td >{{p.pdebitid}}</td>
-                                            <td >{{p.party.party_name}}</td>
-                                            <td ></td>
-                                            <td  >Debit Note</td>
-                                            <td >{{p.grandtotal}}</td>
                                             
-                                            <td >{{p.party.openingbalance}}</td>
-                                            <td >{{p.balance_amount}}</td>
+                                            <td>{{p.debitdate | date:'d-m-Y'}}</td>
+                                            <td>{{p.pdebitid}}</td>
+                                            <td>{{p.party.party_name}}</td>
+                                            
+                                            <td>{{p.payment_type}}</td>
+                                            
+                                            <td>{{p.grandtotal}}</td>
+                                            
+                                            
+                                            
+                                            <td>{{p.balance_amount}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             
                                         </tr>
                                         {% endfor %}
@@ -537,9 +532,7 @@
                     </div>                        
                 </div>
             </div>
-        </div>
-    </div>
-    </div>
+   
     
     
         
@@ -600,12 +593,12 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(data){
-                rows[rowid].getElementsByTagName('td')[9].innerText=data.action;
-                rows[rowid].getElementsByTagName('td')[10].innerText=data.name;
+                rows[rowid].getElementsByTagName('td')[7].innerText=data.action;
+                rows[rowid].getElementsByTagName('td')[8].innerText=data.name;
                 if(data.action== 'Created'){
-                    rows[rowid].getElementsByTagName('td')[9].style.color = 'Red'
+                    rows[rowid].getElementsByTagName('td')[7].style.color = 'white'
                 }else{
-                    rows[rowid].getElementsByTagName('td')[9].style.color = '#154c79'
+                    rows[rowid].getElementsByTagName('td')[7].style.color = '#154c79'
                 }
             }
         });
@@ -629,8 +622,8 @@
 
         // Remove the 9th and 10th columns from the printed content
         $printerDiv.find('tr').each(function () {
-            $(this).find('th:eq(9), th:eq(10), th:eq(11), th:eq(12)').remove();
-            $(this).find('td:eq(9), td:eq(10), td:eq(11), td:eq(12)').remove();
+            $(this).find('th:eq(7), th:eq(8), th:eq(9), th:eq(10)').remove();
+            $(this).find('td:eq(7), td:eq(8), td:eq(9), td:eq(10)').remove();
         });
 
         // Apply white-space: nowrap style for printing
