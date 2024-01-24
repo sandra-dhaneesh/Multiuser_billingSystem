@@ -178,7 +178,8 @@
     }
 
     #myDropdown  a:hover {
-        background-color: #ddd;
+        background-color:#0000cd;
+        color: #ffffff;
     }
 
     ::-webkit-scrollbar{
@@ -221,9 +222,9 @@
                                     <a class="btn ml-4" id="pdflink"><i class="fa fa-file-pdf" aria-hidden="true" style="font-size:22px;color: darkslateblue;"></i><br>Pdf</a>
                                     <a class="btn ml-4" onclick="toggleDropdown()"> <i class="fa fa-share" aria-hidden="true" style="font-size:22px;color: navy;"></i><br>Share</a>
                                     <div class="dropdown-content" id="myDropdown">
-                                        <ul style="margin-bottom: -1px;"></ul>
+                                        <ul style="margin-bottom: -1px;">{% post_to_whatsapp object_or_url "WhatsApp" %}</ul>
                                        
-                                        <ul><a href="#shareBillEmail" data-bs-toggle="modal">Email</a></ul>
+                                        <ul><a href="#" data-toggle="modal" data-target="#shareBillEmail">Email</a></ul>
                                      </div>
                                     <a class="ml-4" href="{% url 'view_purchasedebit' %}" style="text-align: right; font-size: large; color: black;">
                                         <i class="fa fa-times mt-2" aria-hidden="true"></i>
@@ -869,21 +870,37 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.x.x.min.js"></script>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
 <div class="modal fade" id="shareBillEmail" tabindex="-1" aria-labelledby="shareBillEmailLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style=" background-color:rgb(0, 0, 139,.397);">
+      <div class="modal-content" style=" background-color:rgb(0, 0, 139,.397)">
         <div class="modal-header" style="border-bottom: 1px solid #ffffff;">
-          <h5 class="modal-title text-dark" id="shareBillEmailLabel">Share Debitnote Via Email</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title text-light" id="shareBillEmailLabel">Share Debitnote Via Email</h5>
+          <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: x-large;">&times;</span>
+        </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body text-light">
           <form action="{% url 'sharedebitToEmail' pdebt.pdebitid %}" method="post" class="needs-validation" id="share_to_email_form">
             {% csrf_token %}
             <div class="form-group">
                 <label for="emailIds">Email IDs</label>
                 <textarea class="form-control" name="email_ids" id="emailIds" rows="3" placeholder="Multiple emails can be added by separating with a comma(,)." required></textarea>
             </div>
-            <div class="form-group mt-2">
+            <div class="form-group mt-2 text-light">
                 <label for="item_unitname">Message(optional)</label>
                 <textarea name="email_message" id="email_message" class="form-control" cols="" rows="4" placeholder="This message will be sent along with debitnote details."></textarea>
             </div>
@@ -895,15 +912,7 @@
       </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.x.x.min.js"></script>
 
-
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 
 {% for message in messages %}
 
@@ -915,43 +924,83 @@
 
 
 
-
 <script>
-
     $(document).ready(function(){
-        $('#share_with_email').on('click',function(){
-            var emailsInput = document.getElementById('emailIds');
-            var emailsString = emailsInput.value.trim();
+        $('#share_with_email').on('click', function(){
+            // Generate PDF using jsPDF
+            var pdf = new jsPDF();
+            var pdfContent = document.getElementById('pdfContent').innerHTML;
+            pdf.text(pdfContent, 10, 10); // Adjust position as needed
+            var pdfDataUri = pdf.output('datauristring');
 
-            var emails = emailsString.split(',').map(function(email) {
-                return email.trim();
+            // Attach PDF data to the form
+            var formData = new FormData(document.getElementById('share_to_email_form'));
+            formData.append('pdf_data', pdfDataUri);
+
+            // Submit the form with PDF data
+            $.ajax({
+                type: 'POST',
+                url: '{% url "sharedebitToEmail" pdebt.pdebitid %}',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response){
+                    // Handle the response as needed
+                    console.log(response);
+                },
+                error: function(error){
+                    // Handle errors
+                    console.log(error);
+                }
             });
 
-            var emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-
-            var invalidEmails = []
-            if(emailsString == ""){
-                alert('Enter valid email addresses..')
-            }
-            else{
-                for (var i = 0; i < emails.length; i++) {
-                    var currentEmail = emails[i];
-
-                    if (currentEmail!="" && !emailRegex.test(currentEmail)) {
-                        console.log(currentEmail + ' is invalid!');
-                        invalidEmails.push(currentEmail)
-                    }
-                }
-                
-                if(invalidEmails.length > 0){
-                    alert('Invalid emails..Please check!\n'+invalidEmails)
-                    // alert(invalidEmails)
-                }else{
-                    $('#share_to_email_form').submit();
-                }
-            }
-        })
+            // Close the modal (optional)
+            $('#shareBillEmail').modal('hide');
+        });
     });
+</script>
+
+<div class="modal" id="sharewhatsapp" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Share via WhatsApp</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Click the button below to share the PDF via WhatsApp:</p>
+                <button class="btn btn-success" onclick="sharePDF()">Share PDF</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function sharePDF() {
+        // Generate PDF (You'll need to replace this with your actual PDF generation code)
+        var pdfContent = document.getElementById('pdfContent').innerHTML;
+        // Replace this with your actual PDF generation logic
+        // For example, you can use a library like jsPDF or html2pdf to generate PDF from HTML content.
+
+        // For demonstration purposes, let's assume you have a variable 'pdfData' containing the PDF data.
+        var pdfData = 'SamplePDFData';
+
+        // Create a WhatsApp share link
+        var whatsappShareLink = 'https://api.whatsapp.com/send?text=' + encodeURIComponent('Check out this PDF: ' + pdfData);
+
+        // Open WhatsApp share link in a new tab
+        window.open(whatsappShareLink, '_blank');
+
+        // Close the modal (optional)
+        $('#sharewhatsapp').modal('hide');
+    }
 </script>
 <script>
     function toggleDropdown() {

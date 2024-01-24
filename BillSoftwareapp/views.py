@@ -16,6 +16,7 @@ from django.template.response import TemplateResponse
 from django.db.models import F
 from django.http import Http404
 from django.http.response import JsonResponse, HttpResponse
+from xhtml2pdf import pisa
 
 from django.template.loader import get_template
 
@@ -24,7 +25,7 @@ from django.db.models import Sum
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from io import BytesIO
-
+from reportlab.pdfgen import canvas
 from django.db.models import F
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -38,6 +39,16 @@ from .models import company
 from django.db.models import Max
 
 # Create your views here.
+
+def generate_pdf_content():
+    # Replace this with your actual PDF generation logic
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawString(100, 100, "This is a sample PDF content.")
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    return buffer
 
 def home(request):
   return render(request, 'home.html')
@@ -864,7 +875,7 @@ def sharedebitToEmail(request,id):
                 pitm = purchasedebit1.objects.filter(pdebit=pdebt,company=cmp)
                         
                 context = {'pdebt':pdebt, 'cmp':cmp,'pitm':pitm}
-                template_path = 'debitnote_file_mail.html'
+                template_path = 'company/debitnote_file_mail.html'
                 template = get_template(template_path)
 
                 html  = template.render(context)
@@ -883,6 +894,80 @@ def sharedebitToEmail(request,id):
             print(e)
             messages.error(request, f'{e}')
             return redirect(details_debitnote, id)
+        
+def view_purchasedebit(request):
+  if 'staff_id' in request.session:
+    if request.session.has_key('staff_id'):
+      staff_id = request.session['staff_id']
+           
+    else:
+      return redirect('/')
+  staff =  staff_details.objects.get(id=staff_id)
+  cmp = company.objects.get(id=staff.company.id)
+  print("hello")
+  print(staff)
+  allmodules= modules_list.objects.get(company=cmp,status='New')
+  pdebt = purchasedebit.objects.filter(company=cmp)
+
+  if not pdebt:
+    context = {'staff':staff, 'allmodules':allmodules}
+    return render(request,'emptydebit.html',context)
+  
+  context = {'staff':staff,'allmodules':allmodules,'pdebt':pdebt}
+  return render(request,'purchase_return_dr.html',context)
+
+
+def viewPaymentIn(request,id):
+  sid = request.session.get('staff_id')
+  staff = staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+
+  paymentInDetails = PaymentIn.objects.get(id = id)
+  allmodules= modules_list.objects.get(company=cmp,status='New')
+  context = {
+    'payment':paymentInDetails,'staff':staff,'allmodules':allmodules,'company':cmp,
+  }
+
+  return render(request, 'payment_in_details.html',context)
+
+def sharePaymentInToEmail(request,id):
+  if 'staff_id' in request.session:
+    if request.session.has_key('staff_id'):
+      staff_id = request.session['staff_id']
+    else:
+      return redirect('/')
+    staff =  staff_details.objects.get(id=staff_id)
+    com =  company.objects.get(id = staff.company.id)
+    try:
+      if request.method == 'POST':
+        emails_string = request.POST['email_ids']
+
+        # Split the string by commas and remove any leading or trailing whitespace
+        emails_list = [email.strip() for email in emails_string.split(',')]
+        email_message = request.POST['email_message']
+        # print(emails_list)
+
+        payment = PaymentIn.objects.get(id = id)
+        context = {'payment': payment,'company':com}
+        template_path = 'payment_in_pdf.html'
+        template = get_template(template_path)
+
+        html  = template.render(context)
+        result = BytesIO()
+        pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+        pdf = result.getvalue()
+        filename = f'Payment In - {payment.rec_no}.pdf'
+        subject = f"Payment In Receipt - {payment.rec_no}"
+        email = EmailMessage(subject, f"Hi,\nPlease find the attached Receipt of Payment In -{payment.rec_no}. \n{email_message}\n\n--\nRegards,\n{com.company_name}\n{com.address}\n{com.city} - {com.state}\n{com.contact}", from_email=settings.EMAIL_HOST_USER, to=emails_list)
+        email.attach(filename, pdf, "application/pdf")
+        email.send(fail_silently=False)
+
+        messages.success(request, 'Receipt has been shared via email successfully..!')
+        return redirect(viewPaymentIn,id)
+    except Exception as e:
+        print(e)
+        messages.error(request, f'{e}')
+        return redirect(viewPaymentIn, id)
    
 
 

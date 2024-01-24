@@ -34,8 +34,8 @@
 </style>
 
 
-<div class="body-wrapper ">
-    <br><br><br><br>
+<div class="content-body">
+    <div class="container-fluid">
     <!-- <div class="d-flex justify-content-center pt-5" style="margin-top: 5px;">
         <a href="" id="b1" class="btn  text-white"
             style="margin-right: 10px; background-color: rgb(252, 3, 3,0.7);border-radius: 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
@@ -61,8 +61,9 @@
                     <a href="{% url 'view_purchasedebit' %}" style="text-align: right; font-size: large;"><i class="fa fa-times mt-3 mr-4" aria-hidden="true"></i></a>
                 </div>
             </div>
-            <div class="tablediv" style="overflow: scroll;height: 35rem; width: 97%;">
-                <table class="table table-bordered table-info table-striped tb table-responsive w-100" id="billtable"  style="text-align: center;">
+            <center>
+            <div class="tablediv" style="overflow: scroll;height: 50vh; width:50vh;">
+               <table class="table table-bordered table-striped tb table-responsive w-70" id="billtable"  style="text-align: center; background-color: rgb(0, 0, 139,.397);">
                     <thead >
                         <tr class="fs-2 tb" >
                             <th class="bg-secondary text-white">
@@ -82,7 +83,7 @@
                             <td style="color: black;" >{{h.transactiondate | date:'d-m-Y'}}</td>
                             <td style="color: black;" >{{staff.first_name}} {{staff.last_name}}</td>
                             {% if h.action == 'Created' %}
-                                <td style="color: red;" >{{h.action}}</td>
+                                <td style="color: white;" >{{h.action}}</td>
                             {% else %}
                                 <td style="color: #154c79;" >{{h.action}}</td>
                             {% endif %}
@@ -90,9 +91,12 @@
                         {% endfor %}
                     </tbody>
                 </table>
+               
             </div>
+        </center>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock  %}

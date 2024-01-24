@@ -246,4 +246,35 @@ class PurchaseOrderTransactionHistory(models.Model):
     transactiondate = models.DateField(auto_now=True)
 
 
+class PaymentIn(models.Model):
+    staff = models.ForeignKey(staff_details,on_delete=models.CASCADE,blank=True,null=True)
+    company = models.ForeignKey(company,on_delete= models.CASCADE,null=True,blank=True)
+    party = models.ForeignKey(party, on_delete=models.CASCADE,null=True)
+    rec_no = models.BigIntegerField(null=True)
+    date = models.DateField(null=True, blank=True)
+    party_name = models.CharField(max_length=150)
+    contact = models.CharField(max_length=255,null=True,blank=True)
+    billing_address = models.TextField()
+    description = models.TextField()
+    payment_type = models.CharField(max_length=200, null=True, blank=True,default="")
+    payment_method = models.CharField(max_length=100, null=True)
+    payment_acc_number = models.BigIntegerField(null=True)
+    payment_cheque_id = models.CharField(max_length=20,null=True)
+    payment_upi_id = models.CharField(max_length=20,null=True)
+    total_amount = models.FloatField(null=True, blank=True,default=0.0)
+    payment_received = models.FloatField(null=True, blank=True,default=0.0)
+    balance = models.FloatField(null=True, blank=True,default=0.0)
+
+class ItemTransactionHistory(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    company = models.ForeignKey(company,on_delete=models.CASCADE,blank=True,null=True)
+    item=models.ForeignKey(ItemModel,on_delete=models.CASCADE,blank=True,null=True),
+    date=models.DateField(auto_now_add=True, null=True),
+    action=models.CharField(max_length=255),
+    done_by_name=models.CharField(max_length=255)
+
+
+    
+
+
 

@@ -54,6 +54,7 @@ urlpatterns = [
     path('history_debitnote/<int:id>',views.history_debitnote,name='history_debitnote'),
     path('update_debitnote/<int:id>',views.update_debitnote,name='update_debitnote'),
     path('sharedebitToEmail/<int:id>',views.sharedebitToEmail,name='sharedebitToEmail'),
+    path('share_paymentin_to_email/<int:id>',views.sharePaymentInToEmail,name='sharePaymentInToEmail'),
 
    
 

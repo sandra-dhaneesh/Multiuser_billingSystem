@@ -2,9 +2,7 @@
 {% block content %}
 {% load static %}
 
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 <style>
     .card-body{
@@ -22,7 +20,7 @@
         border-top: 1px solid black;
         border-left: 1px solid black;
         border-right: 1px solid black;
-        background-color: rgba(0, 195, 255, 0.205);
+        background-color: rgb(0, 0, 139,.397);
     }
     #tab_logic tbody td{
         border-bottom: 1px solid black;
@@ -50,7 +48,7 @@
 
     .selectize-input {
         height: 5vh;
-        border-color: #54B4D3;
+        border-color: rgb(0, 0, 139,.397);
         border-radius: 5px;
     }
 
@@ -63,12 +61,10 @@
         display: none
     }
 </style> 
-
-<div class="body-wrapper">
-    <br><br><br>
-    <div class="row p-0 m-0">
-        <div class="col-12  p-0 m-0">
-            <div class=" bg-light bg-light pb-0 mb-0 p-2" style="height:100%;width:100%">
+<div class="content-body">
+    <div class="container-fluid">
+        <!-- row for image and content -->
+        
                 <!-- <div class="d-flex justify-content-center pt-4">
                     <a href="" id="b1" class="btn  text-white"
                         style="margin-right: 10px; background-color: rgb(252, 3, 3,0.7);border-radius: 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
@@ -83,17 +79,16 @@
                         Add More <i class="fa fa-plus"></i>
                     </a>
                 </div> -->
-                <p></p>
+                
 
-                <form action="{% url 'update_debitnote' pdebt.pdebitid %}" method="post" enctype="multipart/form-data" onsubmit="return validatedebit()" novalidate>
-
+                <form action="{% url 'update_debitnote' pdebt.pdebitid %}" method="post" enctype="multipart/form-data" onsubmit="return validatedebit()" novalidate >
                     {% csrf_token %}
                     <div class="page-content">
                         <div class="card radius-15">
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="col-md-4">
-                                       <center> <h3 class="mb-3">EDIT  DEBIT  NOTE</h3></center>
+                                        <h3 class="mb-3">EDIT  DEBIT  NOTE</h3>
                                     </div>
                                     <div class="col-md-7"></div>
                                     <div class="col-md-1">
@@ -103,11 +98,11 @@
                                     </div>
                                 </div>
 
-                                <div id="customer_div" style="background-color: rgba(144, 211, 117, 0.098); margin-left: .1px; margin-right: .51px;">
-                                    <div class="row">
+                                <div id="customer_div" style="background-color:rgb(0, 0, 139,.397); margin-left: .1px; margin-right: .51px;">
+                                    <div class="row text-dark">
                                         <!-- Left Side -->
                                         <div class="col-md-1"></div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-5" >
                                             <label class="col-form-label">Partys</label>
                                             <div class="d-flex">
                                                 <select name="customername" id="customer" class="form-control border-secondary"  style="color: black; background-color: white;">
@@ -118,9 +113,7 @@
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select> &nbsp;&nbsp;&nbsp;
-                                                <button id="modal_closing" type="button" class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#customercreation" data-bs-whatever="@mdo">
-                                                    <span class="fa fa-plus"></span>
-                                                </button>
+                                               
                                             </div>
                                             {% if pdebt.party.payment == 'To Pay' %}
                                                 <div class="mt-1 d-flex" >
@@ -148,23 +141,21 @@
                                             <label class="col-form-label">Return No.</label>
                                             <input type="text" class="form-control border-secondary" name="pdebitid" id="pdebitid" value="{{pdebt.pdebitid}}" style="color: black;background-color: white;">
                                             <label class="col-form-label">Bill No.</label>
-                                            <select class="form-control border-secondary" name="bill_no" id="bill_no" value="{{pdebt.bill_no}}" style="color: black;background-color: white;">
-                                                <option value="" selected hidden>Select</option>
+                                            <select class="form-control border-secondary" name="bill_no" id="bill_no"  style="color: black;background-color: white;">
+                                                <option value="{{pdebt.bill_no}}" selected hidden>Select</option>
                                                 <!-- Options will be dynamically added here using JavaScript -->
                                             </select>
                                         
                                             <label class="col-form-label">Bill Date</label>
                                             <select class="form-control border-secondary" name="billdate" id="billdate" style="color: black;background-color: white;">
-                                                <option value="{{ pdebt.billdate }}">{{ pdebt.billdate }}</option>
+                                                <option value="{{pdebt.billdate}}" selected hidden>Select</option>
                                                 <!-- Options will be dynamically added here using JavaScript -->
                                             </select>
-                                            <br>
                                             <label class="col-form-label"> Date</label>
-                                            <input type="date" class="form-control border-secondary" name="debitdate" id="debitdate" style="color: black;background-color: white;" value='{{ddate}}'>
-                                            <br>
-                                            <label class="col-form-label">Place of Supply</label>
+                                            <input type="date" class="form-control border-secondary" name="debitdate" id="debitdate" style="color: black;background-color: white;" value='{{tod}}'>
+                                            <label class="col-form-label ">Place of Supply</label>
                                             <select type="text" class="form-control border-secondary" id="plosu" name="placosupply" style="color: black;background-color: white;">
-                                                <option value="{{pdebt.supply }}" selected hidden>{{pdebt.supply }}</option>
+                                                <option value="" selected hidden>Select</option>
                                                 <option value="State">State</option>
                                                 <option value="Other State">Other State</option>
                                             </select>
@@ -177,7 +168,7 @@
                                     <div class="container mt-5">
                                         <div class="row justify-content-center">
                                             <div class="col-md-12">
-                                                <table class="table table-bordered table-hover mt-3" id="tab_logic">
+                                                <table class="table table-bordered table-hover mt-3 text-dark" id="tab_logic">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center">#</th>
@@ -210,9 +201,7 @@
                                                                     {% endfor %}
                                                                     
                                                                 </select>&nbsp;&nbsp;&nbsp;
-                                                                <button id="modal_closing" type="button" class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#newitem" data-bs-whatever="@mdo">
-                                                                    <span class="fa fa-plus"></span>
-                                                                </button>
+                                                               
                                                             </div>
                                                         </td>
 
@@ -269,89 +258,59 @@
                                     </div>
                                     </div>
                                     <div class="row" style="background-color: rgba(144, 211, 117, 0.098); margin-left: 10vh;">
-                                        <div class="col-md-0"></div>&nbsp;
+                                        <div class="col-md-7"></div>&nbsp;
                                         <div class="col-md-5">
-                                            {% if pdebt.payment_type != 'Cash' and pdebt.payment_type != 'Cheque' and pdebt.payment_type != 'UPI' %}
-                                        <label class="col-form-label">Payment Method</label>
-                                        <select class="form-control border-secondary my-select" id="pay_method" name="method" style="color: black;background-color: white;">
-                                            <option value="{{pdebt.payment_type}}" selected hidden>{{pdebt.payment_type}}</option>
-                                            <option value="Cash">Cash</option>
-                                            <option value="Cheque">Cheque</option>
-                                            <option value="UPI">UPI</option>
-                                            {% for b in bank %}
+                                            <label class="col-form-label text-dark">Payment Method</label>
+                                            <select class="form-control border-secondary my-select" id="pay_method" name="method" style="color: black;background-color: white;">
+                                                <option value="" selected hidden>Select</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Cheque">Cheque</option>
+                                                <option value="UPI">UPI</option>
+                                                {% for b in bank %}
                                                 <option value="{{b.id}}">{{b.bank_name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                        {% else %}
-                                                <label class="col-form-label">Payment Method</label>
-                                               <select class="form-control border-secondary my-select" id="pay_method" name="method" style="color: black;background-color: white;">
-                                                    <option value="{{pdebt.payment_type}}" selected hidden>{{pdebt.payment_type}}</option>
-                                                    <option value="Cash">Cash</option>
-                                                    <option value="Cheque">Cheque</option>
-                                                    <option value="UPI">UPI</option>
-                                                    {% for b in bank %}
-                                                        <option value="{{b.id}}">{{b.bank_name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            {% endif %}
+                                                {% endfor %}
+                                            </select>
                                         </div>
-                                   
-                                   
-                                    <div class="row" >
-                                        <div class="col-md-0"></div>
-                                        {% if pdebt.cheque_no %}
-                                            <div class="col-md-5" id="chequediv">
-                                                <label class="col-form-label" >Cheque Number</label>
-                                                <input type="text" class="form-control border-secondary" name="cheque_id" id="cheque_id" placeholder="Enter Cheque Number" value="{{pdebt.cheque_no}}" style="color: black;background-color: white;">
-                                            </div>
-                                        {% else %}
-                                            <div class="col-md-5" style="display:none;"  id="chequediv">
+                                        <div class="col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-0"></div>
+                                        
+                                            <div style="display:none;"  id="chequediv">
                                                 <label class="col-form-label" >Cheque Number</label>
                                                 <input type="text" class="form-control border-secondary" name="cheque_id" id="cheque_id" placeholder="Enter Cheque Number" style="color: black;background-color: white;">
                                             </div>
-                                        {% endif %}
-                                        {% if pdebt.upi_no %}
-                                            <div class="col-md-5" id="upidiv">
-                                                <label class="col-form-label" >UPI ID</label>
-                                                <input type="text" class="form-control border-secondary" name="upi_id" id="upi_id" placeholder="Enter UPI ID" value="{{pdebt.upi_no}}" style="color: black;background-color: white;">
-                                            </div>
-                                        {% else %}
-                                            <div class="col-md-5"  style="display:none;" id="upidiv">
+            
+                                            <div style="display:none;" id="upidiv">
                                                 <label class="col-form-label" >UPI ID</label>
                                                 <input type="text" class="form-control border-secondary" name="upi_id" id="upi_id" placeholder="Enter UPI ID" style="color: black;background-color: white;">
                                             </div>
-                                        {% endif %}
-                                        {% if pdebt.bank_no %}
-                                            <div class="col-md-5" id="bnkdiv" >
-                                                <label class="col-form-label" >Bank Account</label>
-                                                <input type="text" class="form-control border-secondary" name="bnk_id" id="bnk_id" value="{{pbill.bank_no}}" style="color: black;background-color: white;" readonly>
-                                            </div>
-                                        {% else %}
-                                            <div class="col-md-5" style="display:none;" id="bnkdiv">
+            
+                                            <div style="display:none;" id="bnkdiv">
                                                 <label class="col-form-label" >Bank Account</label>
                                                 <input type="text" class="form-control border-secondary" name="bnk_id" id="bnk_id" style="color: black;background-color: white;" readonly>
-                                            </div>
-                                        {% endif %}
-                                  </div>
-                                  <div class="col-md-7"></div>
-                                </div>
+                                            </div><br><br>
+                                       
+                                           
+                                       
+                                        
+                                       
+                                        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+         
+                                        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                                        &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                                   
+                                   
                                
-                                &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
- 
-                                &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                                &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                                             
-                                             
-                                             <div class="col-md-5 table-responsive-md mt-2 clearfix" id="tab_logic_total" style=" color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: 80vh; background-color: rgba(0, 195, 255, 0.205); ">
-                                                <div class="p-3">
-                                                    <div class="row container-fluid p-2 m-0">
-                                                        <div class="col-sm-4 mt-2"><label class="text-center">Sub Total</label></div>
+                                        <div class="row container-fluid p-2 m-0 text-dark" id="tab_logic_total" style="background-color:rgb(0, 0, 139,.397); margin-left:-1vh;">
+                                           
+                                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Sub Total</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
                                                         <div class="col-sm-7">
                                                             <input type="number" step="any" name='subtotal' value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary" id="sub_total">
                                                         </div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
-                                                    </div>
+                                                  
+                                       
         
                                                     <div class="row container-fluid p-2 m-0" id="igstdiv">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">IGST</label></div>
@@ -408,12 +367,16 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                           
                                         
+                                    
+                                    
 
                                         <div class="row">
                                             <div class="col-md-4"></div> <!-- Adjust the width of the left empty column -->
                                             
-                                            <div class="col-md-4 table-responsive-md mt-3" id="tab_logic_total" style="color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: 13vh; background-color: rgba(0, 195, 255, 0.205);">
+                                            <div class="col-md-4 table-responsive-md mt-3" id="tab_logic_total" style="color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: 50vh; background-color: rgb(0, 0, 139,.397);">
                                                 <div class="p-3">
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Paid Off</label></div>
@@ -433,13 +396,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                            </div>
                                         
+                                        </div>
                                     </div><br><br>
-                                        <div class="row" >
-                                            <div class="col-md-1 mt-3" style="margin-right: 30vh;"></div>
-                                            <div class="col-md-2 mt-3">
+                                        <div class="row justify-content-center" >
+                                            <div class="col-md-5 mt-3 d-flex">
+                                        
                                                 <input type="submit" class="btn btn-primary bg-gradient w-75" name="Save" value="UPDATE"></input>
                                             </div>
                                         </div>
@@ -448,12 +410,14 @@
                                     
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        
+                    
                     
                 </form>
             </div>
         </div>
+        </div>
+    </div>
 
         <!-- modal -->
         <div class="modal fade" id="newitem">
