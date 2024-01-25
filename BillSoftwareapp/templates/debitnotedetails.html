@@ -1,6 +1,6 @@
 {% extends 'staff/staff_base.html' %}
 {% block content %}
-
+{% load social_share %}
 {% load static %}
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -221,9 +221,9 @@
                                     <a class="btn ml-5" onclick="printfun()">   <i class="fa fa-print" aria-hidden="true" style="font-size:22px;color: red;"></i> <br>Print</a>
                                     <a class="btn ml-4" id="pdflink"><i class="fa fa-file-pdf" aria-hidden="true" style="font-size:22px;color: darkslateblue;"></i><br>Pdf</a>
                                     <a class="btn ml-4" onclick="toggleDropdown()"> <i class="fa fa-share" aria-hidden="true" style="font-size:22px;color: navy;"></i><br>Share</a>
-                                    <div class="dropdown-content" id="myDropdown">
+                                    <div class="dropdown-content close-dropdown-link" id="myDropdown">
+                                        
                                         <ul style="margin-bottom: -1px;">{% post_to_whatsapp object_or_url "WhatsApp" %}</ul>
-                                       
                                         <ul><a href="#" data-toggle="modal" data-target="#shareBillEmail">Email</a></ul>
                                      </div>
                                     <a class="ml-4" href="{% url 'view_purchasedebit' %}" style="text-align: right; font-size: large; color: black;">
@@ -923,85 +923,48 @@
 {% endfor %}
 
 
-
 <script>
+
     $(document).ready(function(){
-        $('#share_with_email').on('click', function(){
-            // Generate PDF using jsPDF
-            var pdf = new jsPDF();
-            var pdfContent = document.getElementById('pdfContent').innerHTML;
-            pdf.text(pdfContent, 10, 10); // Adjust position as needed
-            var pdfDataUri = pdf.output('datauristring');
+        $('#share_with_email').on('click',function(){
+            var emailsInput = document.getElementById('emailIds');
+            var emailsString = emailsInput.value.trim();
 
-            // Attach PDF data to the form
-            var formData = new FormData(document.getElementById('share_to_email_form'));
-            formData.append('pdf_data', pdfDataUri);
-
-            // Submit the form with PDF data
-            $.ajax({
-                type: 'POST',
-                url: '{% url "sharedebitToEmail" pdebt.pdebitid %}',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response){
-                    // Handle the response as needed
-                    console.log(response);
-                },
-                error: function(error){
-                    // Handle errors
-                    console.log(error);
-                }
+            var emails = emailsString.split(',').map(function(email) {
+                return email.trim();
             });
 
-            // Close the modal (optional)
-            $('#shareBillEmail').modal('hide');
-        });
+            var emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+            var invalidEmails = []
+            if(emailsString == ""){
+                alert('Enter valid email addresses..')
+            }
+            else{
+                for (var i = 0; i < emails.length; i++) {
+                    var currentEmail = emails[i];
+
+                    if (currentEmail!="" && !emailRegex.test(currentEmail)) {
+                        console.log(currentEmail + ' is invalid!');
+                        invalidEmails.push(currentEmail)
+                    }
+                }
+                
+                if(invalidEmails.length > 0){
+                    alert('Invalid emails..Please check!\n'+invalidEmails)
+                    // alert(invalidEmails)
+                }else{
+                    $('#share_to_email_form').submit();
+                }
+            }
+        })
     });
 </script>
 
-<div class="modal" id="sharewhatsapp" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Share via WhatsApp</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Click the button below to share the PDF via WhatsApp:</p>
-                <button class="btn btn-success" onclick="sharePDF()">Share PDF</button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
-<script>
-    function sharePDF() {
-        // Generate PDF (You'll need to replace this with your actual PDF generation code)
-        var pdfContent = document.getElementById('pdfContent').innerHTML;
-        // Replace this with your actual PDF generation logic
-        // For example, you can use a library like jsPDF or html2pdf to generate PDF from HTML content.
 
-        // For demonstration purposes, let's assume you have a variable 'pdfData' containing the PDF data.
-        var pdfData = 'SamplePDFData';
-
-        // Create a WhatsApp share link
-        var whatsappShareLink = 'https://api.whatsapp.com/send?text=' + encodeURIComponent('Check out this PDF: ' + pdfData);
-
-        // Open WhatsApp share link in a new tab
-        window.open(whatsappShareLink, '_blank');
-
-        // Close the modal (optional)
-        $('#sharewhatsapp').modal('hide');
-    }
-</script>
 <script>
     function toggleDropdown() {
         var dropdownContent = document.getElementById("myDropdown");
@@ -1144,6 +1107,17 @@
         $printerDiv.remove();
         $('body').removeClass("printingContent");
     }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Add a click event handler to the dropdown items
+        $(".close-dropdown-link").click(function() {
+            // Close the dropdown
+            $("#myDropdown").hide();
+        });
+    });
 </script>
 
 

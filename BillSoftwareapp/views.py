@@ -875,7 +875,7 @@ def sharedebitToEmail(request,id):
                 pitm = purchasedebit1.objects.filter(pdebit=pdebt,company=cmp)
                         
                 context = {'pdebt':pdebt, 'cmp':cmp,'pitm':pitm}
-                template_path = 'company/debitnote_file_mail.html'
+                template_path ='debitnote_file_mail.html'
                 template = get_template(template_path)
 
                 html  = template.render(context)
