@@ -740,6 +740,7 @@ def bankdata1(request):
   bank_no = bank.account_num
   return JsonResponse({'bank_no':bank_no})
 
+
 def debthistory(request):
   pid = request.POST['id']
   sid = request.session.get('staff_id')

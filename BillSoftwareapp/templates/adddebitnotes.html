@@ -614,7 +614,7 @@
                                                     </div>
                                                     <div class="text-start mt-5">
                                                         <button id="fieldprev" class="btn" style="background-color: darkblue; color: white;" type="button">PREVIOUS</button>
-                                                        <button class="btn" style="background-color: darkblue; color: white;" type="button" id="customersave">SAVE</button>
+                                                        <button class="btn" style="background-color: darkblue; color: white;" type="button" id="customersave" onClick="history.go(0);">SAVE</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1114,7 +1114,6 @@
         });   
         
     });
-
     function reloadCustomer() {
         $.ajax({
             url: "{% url 'cust_dropdown1' %}",
