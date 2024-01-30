@@ -352,7 +352,7 @@
                                                             <button class="clear-filter btn btn-info">Clear</button>
                                                         
                                                     </div></th>
-                                                <th class="bg-secondary text-white" style="width: 10%;"></th>
+                                                <th class="bg-secondary text-white" style="width: 10%;">Action</th>
                                             </tr>
                                         </thead>
                                     <tbody>
@@ -395,7 +395,8 @@
                                            
 
                                             <td class="pt-3 m-0">
-                                                <div class="dropdown-toggle" href="#" data-toggle="dropdown"> 
+                                                <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"></a>
                                                 
                                                  
                                                     <ul class="dropdown-menu">
@@ -877,6 +878,16 @@
                 buttons: false,
             })
         });
+    }
+</script>
+
+<script>
+    function closeDropdown() {
+        // Find the parent dropdown menu and close it
+        var dropdownMenu = event.target.closest('.dropdown-menu');
+        if (dropdownMenu) {
+            dropdownMenu.classList.remove('show');
+        }
     }
 </script>
 

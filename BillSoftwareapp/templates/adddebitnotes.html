@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no">
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -45,8 +45,8 @@
     }
 
     #tab_logic{
-        margin-left: 10px;
-        width: 98%;
+        margin-left:20px;
+        
     }
 
     #tab_logic thead th{
@@ -107,7 +107,7 @@
                 <div class="content-body">
                     <div class="container-fluid">
                         <!-- row for image and content -->
-                        <div class="card-body">
+                        <div class="card-body" >
                            
   
                 <form action="{% url 'create_debitnotes' %}" method="post" class="needs-validation" enctype="multipart/form-data"onsubmit="return validatedebit()" novalidate>
@@ -193,10 +193,9 @@
                                     <br>
                                     
                                
-    
                                     <div class="row clearfix">
-                                        <div class="col-md-12 table-responsive-md mt-3 d-flex justify-content-center">
-                                            <table class="table table-bordered table-hover  mt-3" id="tab_logic" style="max-width: 80%;">
+                                        <div class="col-md-12 table-responsive mt-3 d-flex justify-content-center">
+                                            <table class="table table-bordered table-hover mt-3" id="tab_logic" style="max-width:80%;">
                                                 <thead>
                                                     <tr style="color: black;">
                                                         <th class="text-center">#</th>
@@ -393,8 +392,8 @@
                                         <div class="row">
                                             <div class="col-md-4"></div> <!-- Adjust the width of the left empty column -->
                                             
-                                            <div class="col-md-4 table-responsive-md mt-3" id="tab_logic_total" style="color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left: 10vh; background-color: rgb(0, 0, 139,.397);">
-                                                <div class="p-3">
+                                            <div class="col-md-4 mt-3" id="tab_logic_total" style="color: black; border: 1px solid rgba(128, 128, 128, 0.6); margin-left:2vh; background-color: rgb(0, 0, 139,.397);">
+                                                <div class="table-responsive">
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Paid Off</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
@@ -414,7 +413,7 @@
                                                 </div>
                                             </div>
                                         
-                                        
+                                        </div>
                                     </div><br><br>
                                     <div class="row justify-content-center">
                                         <div class="col-md-5 mt-3 d-flex">
@@ -770,7 +769,7 @@
                                             </div>
                                             <div class="text-start mt-5">
                                                 <button id="prev_btn" class="btn" style="background-color: darkblue; color: white;" type="button">PREVIOUS</button>
-                                                <button class="btn" style="background-color: darkblue; color: white;" type="button" id="itemsave">SAVE</button>
+                                                <button class="btn" style="background-color: darkblue; color: white;" type="button" id="itemsave" onClick="history.go(0);">SAVE</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1177,7 +1176,7 @@
                 },
                
             });  
-            
+
         }      
     });
 

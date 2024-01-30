@@ -791,6 +791,7 @@ def edit_debitnote(request,id):
   pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
   debtitem = purchasedebit1.objects.filter(pdebit=id,company=cmp)
   
+  
   if pdebt.payment_type != 'Cash' and pdebt.payment_type != 'Cheque' and pdebt.payment_type != 'UPI':
     bankno = BankModel.objects.get(id= pdebt.payment_type,company=cmp,user=cmp.user)
   else:
@@ -798,7 +799,7 @@ def edit_debitnote(request,id):
   
 
   ddate = pdebt.debitdate.strftime("%Y-%m-%d")
-  context = {'staff':staff,  'allmodules':allmodules, 'pdebt':pdebt, 'debtitem':debtitem, 'partys':partys, 'item':item, 'item_units':item_units, 'ddate':ddate,'bank':bank,'bankno':bankno,'tod':tod}
+  context = {'staff':staff,  'allmodules':allmodules, 'pdebt':pdebt, 'debtitem':debtitem, 'partys':partys, 'item':item, 'item_units':item_units, 'ddate':ddate,'bank':bank,'bankno':bankno,'tod':tod,'supply':pdebt.supply}
   return render(request,'debitnoteedit.html',context)
 
 def history_debitnote(request,id):
