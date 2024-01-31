@@ -156,22 +156,25 @@
                                         <div class="col-md-5">
                                             <label class="col-form-label">Return No.</label>
                                             <input type="text" class="form-control border-secondary" name="pdebitid" id="pdebitid" value="{{pdebt.pdebitid}}" style="color: black;background-color: white;">
+                                         
                                             <label class="col-form-label">Bill No.</label>
                                             <select class="form-control border-secondary" name="bill_no" id="bill_no"  style="color: black;background-color: white;">
                                                 <option value="{{pdebt.bill_no}}" selected hidden>Select</option>
                                                 <!-- Options will be dynamically added here using JavaScript -->
                                             </select>
+                                         
                                         
                                             <label class="col-form-label">Bill Date</label>
-                                            <select class="form-control border-secondary" name="billdate" id="billdate" style="color: black;background-color: white;">
-                                                <option value="{{pdebt.billdate}}" selected hidden>Select</option>
+                                            <input type="date" value="{{ pdebt.debitdate |date:'Y-m-d'}}" class="form-control"
+                                               name="debitdate" style="color: black;background-color: white;">
+                                            
                                                 <!-- Options will be dynamically added here using JavaScript -->
-                                            </select>
+                                        
                                             <label class="col-form-label"> Date</label>
                                             <input type="date" class="form-control border-secondary" name="debitdate" id="debitdate" style="color: black;background-color: white;" value='{{tod}}'>
                                             <label class="col-form-label ">Place of Supply</label>
-                                            <select type="text" class="form-control border-secondary" id="plosu" name="placosupply" style="color: black;background-color: white;">
-                                                <option value="{{ supply }}" selected hidden >{{supply}}</option>
+                                            <select type="text" class="form-control border-secondary" id="plosu" name="placosupply" style="color: black;background-color: white;" onchange="updateTaxRate()">
+                                                <option value="{{supply}}" selected hidden >{{supply}}</option>
                                                 <option value="State">State</option>
                                                 <option value="Other State">Other State</option>
                                             </select>
@@ -278,7 +281,8 @@
                                         <div class="col-md-5">
                                             <label class="col-form-label text-dark">Payment Method</label>
                                             <select class="form-control border-secondary my-select" id="pay_method" name="method" style="color: black;background-color: white;">
-                                                <option value="" selected hidden>Select</option>
+                                                <option value=" " selected hidden>Select</option>
+                                          
                                                 <option value="Cash">Cash</option>
                                                 <option value="Cheque">Cheque</option>
                                                 <option value="UPI">UPI</option>
@@ -319,66 +323,65 @@
                                
                                         <div class="row container-fluid p-2 m-0 text-dark" id="tab_logic_total" style="background-color:rgb(0, 0, 139,.397); margin-left:-1vh;">
                                            
-                                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Sub Total</label></div>
-                                                        <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                            <input type="number" step="any" name='subtotal' value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary" id="sub_total">
-                                                        </div>
+                                            <div class="col-sm-4 mt-2"> <label class="text-center ">Sub Total</label></div>
+                                            <div class="col-sm-1 mt-2">:</div>
+                                            <div class="col-sm-7 mt-2"> <input type="number" value="{{pdebt.subtotal}}" step="any"
+                                                    placeholder=0 class="form-control" id="subtotal" name="subtotal" readonly />
+                                            </div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                   
                                        
         
                                                     <div class="row container-fluid p-2 m-0" id="igstdiv">
-                                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">IGST</label></div>
+                                                        <div class="col-sm-4 mt-2"><label class="text-center ">IGST</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                            <input type="number" name='igst' step="any" id="igst" value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary"/>
+                                                        <div class="col-sm-7 mt-2"><input type="number" id='igst' name="igst"
+                                                                value="{{pdebt.igst}}" placeholder='0.00' class="form-control" readonly />
                                                         </div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
                                                 
                                                     <div class="row container-fluid p-2 m-0" style="display: none;" id="cgstdiv">
-                                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">CGST</label></div>
+                                                        <div class="col-sm-4 mt-2"><label class="text-center">CGST</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                            <input type="number" name='cgst' step="any" id="cgst" value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary"/>
-                                                        </div>
+                                                        <div class="col-sm-7 mt-2"><input type="number" id='cgst' name="cgst" step="any"
+                                                            placeholder=0 class="form-control" value="{{pdebt.cgst}}" readonly /></div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
         
                                                     <div class="row container-fluid p-2 m-0" style="display: none;" id="sgstdiv">
-                                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">SGST</label></div>
+                                                        <div class="col-sm-4 mt-2"><label class="text-center">SGST</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                        <input type="number" name='sgst' step="any" id="sgst" value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary"/>
-                                                        </div>
+                                                        <div class="col-sm-7 mt-2"><input type="number" id='sgst' name="sgst" step="any"
+                                                                placeholder=0 class="form-control" value="{{pdebt.sgst}}" readonly /></div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
         
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Tax Amount</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                        <input type="number" step="any" name='taxamount' id="tax_amount" value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary"/>
-                                                        </div>
+                                                        <div class="col-sm-7 mt-2"><input type="number" id="tax_amount"
+                                                                           value="{{pdebt.taxamount}}" name="taxamount" placeholder=0 step="any"
+                                                                         class="form-control" readonly /></div>
+
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
         
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Adjustment</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                        <input type="number" step="any" name='adj' id="adj" value=0.00 class="form-control border-secondary" style="color: black; background-color: white;"/>
-                                                        </div>
+                                                         <div class="col-sm-7 mt-2"><input type="number" id="adj" name="adj"
+                                                                   value="{{pdebt.adjustment}}" placeholder=0 step="any" value="0" required
+                                                               class="form-control" /></div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
                                                     
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                        <input type="number" name='grandtotal' id="grandtotal" value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary"/>
-                                                        </div>
+                                                        <div class="col-sm-7 mt-2"><input type="number" value={{pdebt.grandtotal}}
+                                                             id="grandtotal" name="grandtotal" value=0 step="any" class="form-control"  readonly /></div>
+                                                                             
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
                                                 </div>
@@ -398,16 +401,15 @@
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Paid Off</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
                                                         <div class="col-sm-7">
-                                                            <input type="number" step="any" name='advance' id="advance" value=0.00 class="form-control border-secondary" style="color: black; background-color: white;"/>
+                                                            <input type="number" step="any" value={{pdebt.paid_amount}} name='advance' id="advance" value=0.00 class="form-control border-secondary" style="color: black; background-color: white;"/>
                                                         </div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
                                                     <div class="row container-fluid p-2 m-0">
                                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance</label></div>
                                                         <div class="col-sm-1 mt-2">:</div>
-                                                        <div class="col-sm-7">
-                                                            <input type="number" name='balance' id="balance" value=0.00 readonly style="color: black; background-color: white;" class="form-control border-secondary" readonly />
-                                                        </div>
+                                                        <div class="col-sm-7 mt-2"><input type="number" value={{pdebt.balance_amount}}
+                                                            id="balance" name="balance" value=0 step="any" class="form-control"  readonly /></div>
                                                         <div class="col-sm-4 m-0 p-0"></div>
                                                     </div>
                                                 </div>
@@ -852,6 +854,22 @@
             $('#gsthead').click()
         })
     })
+</script>
+
+
+<script>
+    function updateTaxRate() {
+        var placeOfSupply = document.getElementById("plosu").value;
+        var taxInput = document.getElementById("tax1");
+        var intrataxval = document.getElementById("intrataxval1").value; // Update the ID according to your needs
+        var intertaxval = document.getElementById("intertaxval1").value; // Update the ID according to your needs
+
+        if (placeOfSupply === 'State') {
+            taxInput.value = intrataxval;
+        } else {
+            taxInput.value = intertaxval;
+        }
+    }
 </script>
 
 <script>
