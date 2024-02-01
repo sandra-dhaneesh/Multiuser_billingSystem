@@ -1,4 +1,4 @@
-{% extends 'staff/staff_base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 {% load static %}
 <meta charset="UTF-8">
@@ -21,13 +21,15 @@
 
 
 <style>
-        
+     
         body {
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            font-size: 14px;
+            
         }
 
 
@@ -98,6 +100,37 @@
     ::-webkit-scrollbar {
         display: none
     }
+    @media screen and (max-width: 280px) {
+    /* Adjust the font size, padding, margins, and other properties as needed */ 
+/* Adjustments for smaller screens like Galaxy Fold */
+
+ 
+    
+    .container-fluid {
+        padding: 10px; /* Adjust padding as needed */
+    }
+
+    .col-md-4, .col-md-5, .col-md-7 {
+        width: 100%; /* Make columns occupy full width */
+        margin-bottom: 10px; /* Add margin between columns */
+    }
+
+    /* Adjust the styles for form inputs, buttons, and other elements */
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%; /* Make form inputs full width */
+        /* Add any other necessary styles */
+    }
+
+    .btn {
+        width: auto; /* Adjust button width as needed */
+        margin-left: 0; /* Remove left margin for buttons */
+    }
+}
+
+
 
  
 
