@@ -13,7 +13,8 @@ from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.template.response import TemplateResponse
-from django.db.models import F
+
+
 from django.http import Http404
 from django.http.response import JsonResponse, HttpResponse
 from xhtml2pdf import pisa
@@ -26,7 +27,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from io import BytesIO
 from reportlab.pdfgen import canvas
-from django.db.models import F
+
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
@@ -65,7 +66,11 @@ def service(request):
   return render(request, 'service.html')
 
 def parties_default(request):
-   return render(request,'parties_default.html')
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+
+  return render(request, 'parties_default.html',{'staff':staff, 'cmp':cmp})
 
 
 def homepage(request):
@@ -371,6 +376,7 @@ def edit_staffprofilesave(request):
 
   return render(request,'editstaff.html',context)
 
+
 def add_debitnote(request):
   toda = date.today()
   tod = toda.strftime("%Y-%m-%d")
@@ -512,6 +518,7 @@ def create_debitnotes(request):
     
   else:
     return render(request,'adddebitnotes.html')
+
 def view_purchasedebit(request):
   if 'staff_id' in request.session:
     if request.session.has_key('staff_id'):
@@ -582,6 +589,36 @@ def saveitem(request):
   itm.save() 
   return JsonResponse({'success': True})
 
+
+def saveitem1(request):
+  sid = request.session.get('staff_id')
+  staff =  staff_details.objects.get(id=sid)
+  cmp = company.objects.get(id=staff.company.id)
+
+  name = request.POST['name']
+  unit = request.POST['unit']
+  hsn = request.POST['hsn']
+  taxref = request.POST['taxref']
+  sell_price = request.POST['sell_price']
+  cost_price = request.POST['cost_price']
+  intra_st = request.POST['intra_st']
+  inter_st = request.POST['inter_st']
+
+  if taxref != 'Taxable':
+    intra_st = 'GST0[0%]'
+    inter_st = 'IGST0[0%]'
+
+  itmdate = request.POST.get('itmdate')
+  stock = request.POST.get('stock')
+  itmprice = request.POST.get('itmprice')
+  minstock = request.POST.get('minstock')
+
+  itm = ItemModel(item_name=name, item_hsn=hsn,item_unit=unit,item_taxable=taxref, item_gst=intra_st,item_igst=inter_st, item_sale_price=sell_price, 
+                item_purchase_price=cost_price,item_opening_stock=stock,item_current_stock=stock,item_at_price=itmprice,item_date=itmdate,
+                item_min_stock_maintain=minstock,company=cmp,user=cmp.user)
+  itm.save() 
+  return JsonResponse({'success': True})
+
 def itemdetail(request):
   itmid = request.GET['id']
   itm = ItemModel.objects.get(id=itmid)
@@ -591,7 +628,6 @@ def itemdetail(request):
   price = itm.item_purchase_price
   qty = itm.item_current_stock
   return JsonResponse({'hsn':hsn, 'gst':gst, 'igst':igst, 'price':price, 'qty':qty})
-
 def savecustomer1(request):
   if request.method =='POST':
     sid = request.session.get('staff_id')
@@ -662,7 +698,6 @@ def saveitem1(request):
                 item_min_stock_maintain=minstock,company=cmp,user=cmp.user)
   itm.save() 
   return JsonResponse({'success': True})
-
 def item_dropdowns(request):
   sid = request.session.get('staff_id')
   staff =  staff_details.objects.get(id=sid)
@@ -734,11 +769,24 @@ def get_bill_date(request):
 
     return JsonResponse({'bill_date': bill_date})
 
+
 def bankdata1(request):
   bid = request.POST['id']
   bank = BankModel.objects.get(id=bid) 
   bank_no = bank.account_num
   return JsonResponse({'bank_no':bank_no})
+
+
+
+def itemdetail(request):
+  itmid = request.GET['id']
+  itm = ItemModel.objects.get(id=itmid)
+  hsn = itm.item_hsn
+  gst = itm.item_gst
+  igst = itm.item_igst
+  price = itm.item_purchase_price
+  qty = itm.item_current_stock
+  return JsonResponse({'hsn':hsn, 'gst':gst, 'igst':igst, 'price':price, 'qty':qty})
 
 
 def debthistory(request):
@@ -766,7 +814,7 @@ def details_debitnote(request,id):
   sid = request.session.get('staff_id')
   staff =  staff_details.objects.get(id=sid)
   cmp = company.objects.get(id=staff.company.id) 
-  allmodules = modules_list.objects.get(company=staff.company,status='New')
+  allmodules = modules_list.objects.filter(company=staff.company,status='New')
   pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
   pitm = purchasedebit1.objects.filter(pdebit=pdebt,company=cmp)
   dis = 0
@@ -776,6 +824,7 @@ def details_debitnote(request,id):
 
   context={'staff':staff,'allmodules':allmodules,'pdebt':pdebt,'pitm':pitm,'itm_len':itm_len,'dis':dis}
   return render(request,'debitnotedetails.html',context)
+
 
 def edit_debitnote(request,id):
   toda = date.today()
@@ -787,7 +836,7 @@ def edit_debitnote(request,id):
   item = ItemModel.objects.filter(company=cmp,user=cmp.user)
   item_units = UnitModel.objects.filter(user=cmp.user,company=staff.company.id)
   bank = BankModel.objects.filter(company=cmp,user=cmp.user)
-  allmodules= modules_list.objects.get(company=staff.company,status='New')
+  allmodules= modules_list.objects.filter(company=staff.company,status='New')
   pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
   debtitem = purchasedebit1.objects.filter(pdebit=id,company=cmp)
   
@@ -801,12 +850,11 @@ def edit_debitnote(request,id):
   ddate = pdebt.debitdate.strftime("%Y-%m-%d")
   context = {'staff':staff,  'allmodules':allmodules, 'pdebt':pdebt, 'debtitem':debtitem, 'partys':partys, 'item':item, 'item_units':item_units, 'ddate':ddate,'bank':bank,'bankno':bankno,'tod':tod,'supply':pdebt.supply}
   return render(request,'debitnoteedit.html',context)
-
 def history_debitnote(request,id):
   sid = request.session.get('staff_id')
   staff =  staff_details.objects.get(id=sid)
   cmp = company.objects.get(id=staff.company.id)  
-  allmodules= modules_list.objects.get(company=staff.company,status='New')
+  allmodules= modules_list.objects.filter(company=staff.company,status='New')
   pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
   hsty= DebitnoteTransactionHistory.objects.filter(debitnote=id,company=cmp)
   context = {'staff':staff,'allmodules':allmodules,'hsty':hsty,'id':id}
@@ -897,6 +945,7 @@ def sharedebitToEmail(request,id):
             messages.error(request, f'{e}')
             return redirect(details_debitnote, id)
         
+
 def view_purchasedebit(request):
   if 'staff_id' in request.session:
     if request.session.has_key('staff_id'):
@@ -908,7 +957,7 @@ def view_purchasedebit(request):
   cmp = company.objects.get(id=staff.company.id)
   print("hello")
   print(staff)
-  allmodules= modules_list.objects.get(company=cmp,status='New')
+  allmodules = modules_list.objects.filter(company=staff.company, status='New').first()
   pdebt = purchasedebit.objects.filter(company=cmp)
 
   if not pdebt:
