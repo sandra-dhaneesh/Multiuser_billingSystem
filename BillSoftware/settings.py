@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'BillSoftware.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'infoxtec_multiuserbillingsoft',
+        'NAME': 'billsoftware',
         'USER':'root',
         'PASSWORD':'',
         'HOST':'localhost',

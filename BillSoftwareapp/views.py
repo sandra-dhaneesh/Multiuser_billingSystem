@@ -20,7 +20,8 @@ from django.http.response import JsonResponse, HttpResponse
 from xhtml2pdf import pisa
 
 from django.template.loader import get_template
-
+from django.db.models import F
+from django.db.models import F
 from django.http import JsonResponse
 from django.db.models import Sum
 from django.core.mail import send_mail, EmailMessage
@@ -825,7 +826,6 @@ def details_debitnote(request,id):
   context={'staff':staff,'allmodules':allmodules,'pdebt':pdebt,'pitm':pitm,'itm_len':itm_len,'dis':dis}
   return render(request,'debitnotedetails.html',context)
 
-
 def edit_debitnote(request,id):
   toda = date.today()
   tod = toda.strftime("%Y-%m-%d")
@@ -839,7 +839,7 @@ def edit_debitnote(request,id):
   allmodules= modules_list.objects.filter(company=staff.company,status='New')
   pdebt = purchasedebit.objects.get(pdebitid=id,company=cmp)
   debtitem = purchasedebit1.objects.filter(pdebit=id,company=cmp)
-  
+  payment_type=purchasedebit.objects.filter(pdebitid=id,company=cmp)
   
   if pdebt.payment_type != 'Cash' and pdebt.payment_type != 'Cheque' and pdebt.payment_type != 'UPI':
     bankno = BankModel.objects.get(id= pdebt.payment_type,company=cmp,user=cmp.user)
@@ -848,8 +848,10 @@ def edit_debitnote(request,id):
   
 
   ddate = pdebt.debitdate.strftime("%Y-%m-%d")
-  context = {'staff':staff,  'allmodules':allmodules, 'pdebt':pdebt, 'debtitem':debtitem, 'partys':partys, 'item':item, 'item_units':item_units, 'ddate':ddate,'bank':bank,'bankno':bankno,'tod':tod,'supply':pdebt.supply}
+  context = {'staff':staff,  'allmodules':allmodules, 'pdebt':pdebt, 'debtitem':debtitem, 'partys':partys, 'item':item, 'item_units':item_units, 'ddate':ddate,'bank':bank,'bankno':bankno,'tod':tod, 'payment_type':payment_type}
   return render(request,'debitnoteedit.html',context)
+
+
 def history_debitnote(request,id):
   sid = request.session.get('staff_id')
   staff =  staff_details.objects.get(id=sid)

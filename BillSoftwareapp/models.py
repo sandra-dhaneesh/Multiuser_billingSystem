@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-
 class company(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     Company_code = models.CharField(max_length=100,null=True,blank=True)
@@ -31,6 +30,8 @@ class staff_details(models.Model):
     img = models.ImageField(null=True,blank = True,upload_to = 'image/staff')    
     position = models.CharField(max_length=255,null=True,blank=True,default='staff')
 
+
+
 class party(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     company = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True)
@@ -49,23 +50,6 @@ class party(models.Model):
     additionalfield1 = models.CharField(max_length=100,null=True,blank=True)
     additionalfield2 = models.CharField(max_length=100,null=True,blank=True)
     additionalfield3 = models.CharField(max_length=100,null=True,blank=True)
-
-
-class BankModel(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
-    company = models.ForeignKey(company,on_delete=models.CASCADE,blank=True,null=True)
-    bank_name = models.CharField(max_length=255)
-    account_num = models.PositiveBigIntegerField(null=True)
-    ifsc = models.CharField(max_length=255)
-    branch_name = models.CharField(max_length=255)
-    upi_id = models.CharField(max_length=255)
-    as_of_date = models.DateField(null=True)
-    card_type = models.CharField(max_length=255)
-    open_balance = models.BigIntegerField(null=True)
-    current_balance = models.BigIntegerField(null=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    created_by = models.CharField(max_length=255,null=True)
-
 class modules_list(models.Model): 
     company = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True) 
     sales_invoice = models.CharField(max_length=100,null=True,default=0)   
@@ -111,6 +95,21 @@ class UnitModel(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     company = models.ForeignKey(company,on_delete= models.CASCADE,null=True,blank=True)
     unit_name = models.CharField(max_length=255)
+
+class BankModel(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+    company = models.ForeignKey(company,on_delete=models.CASCADE,blank=True,null=True)
+    bank_name = models.CharField(max_length=255)
+    account_num = models.PositiveBigIntegerField(null=True)
+    ifsc = models.CharField(max_length=255)
+    branch_name = models.CharField(max_length=255)
+    upi_id = models.CharField(max_length=255)
+    as_of_date = models.DateField(null=True)
+    card_type = models.CharField(max_length=255)
+    open_balance = models.BigIntegerField(null=True)
+    current_balance = models.BigIntegerField(null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=255,null=True)
 
 class purchasedebit(models.Model):
     pdebitid = models.AutoField(('pdid'), primary_key=True)
@@ -246,6 +245,7 @@ class PurchaseOrderTransactionHistory(models.Model):
     transactiondate = models.DateField(auto_now=True)
 
 
+    
 class PaymentIn(models.Model):
     staff = models.ForeignKey(staff_details,on_delete=models.CASCADE,blank=True,null=True)
     company = models.ForeignKey(company,on_delete= models.CASCADE,null=True,blank=True)
@@ -264,17 +264,4 @@ class PaymentIn(models.Model):
     total_amount = models.FloatField(null=True, blank=True,default=0.0)
     payment_received = models.FloatField(null=True, blank=True,default=0.0)
     balance = models.FloatField(null=True, blank=True,default=0.0)
-
-class ItemTransactionHistory(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
-    company = models.ForeignKey(company,on_delete=models.CASCADE,blank=True,null=True)
-    item=models.ForeignKey(ItemModel,on_delete=models.CASCADE,blank=True,null=True),
-    date=models.DateField(auto_now_add=True, null=True),
-    action=models.CharField(max_length=255),
-    done_by_name=models.CharField(max_length=255)
-
-
-    
-
-
 

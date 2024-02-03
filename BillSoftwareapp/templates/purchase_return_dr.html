@@ -301,7 +301,7 @@
                                                         <option value="equal-to" selected>Equal to</option>
                                                         
                                                     </select><br><br>
-                                                    <input type="number" class="filter-value" ><br><br>
+                                                    <input type="number" class="filter-value"><br><br>
                                                     
                                                    
                                                         <button class="apply-filter btn btn-primary">Apply</button>
@@ -352,7 +352,7 @@
                                                             <button class="clear-filter btn btn-info">Clear</button>
                                                         
                                                     </div></th>
-                                                <th class="bg-secondary text-white" style="width: 10%;">Action</th>
+                                                <th class="bg-secondary text-white" style="width: 10%;"></th>
                                             </tr>
                                         </thead>
                                     <tbody>
@@ -371,7 +371,7 @@
                                             
                                             
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.balance_amount}}</td>
-                                            <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
+                                            <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}">{{p.action}}</td>
                                             <td class="clickable-row" style="color: black;" data-href="details_debitnote/{{ p.pdebitid }}"></td>
                                           
 
