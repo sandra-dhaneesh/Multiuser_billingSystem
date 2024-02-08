@@ -112,7 +112,6 @@ def logout(request):
     return redirect('/')
 
 
-
 def registeruser(request):
     if request.method == 'POST':
         first_name = request.POST['fname']
@@ -163,6 +162,7 @@ def registeruser(request):
 
     return render(request, 'register.html')
   
+  
 def add_company(request):
   
   if request.method == 'POST':
@@ -198,6 +198,7 @@ def add_company(request):
     return redirect('login')  
   return render(request,'registercompany.html') 
 
+
 def staff_registraction(request):
   if request.method == 'POST':
     fn=request.POST['fname']
@@ -232,7 +233,6 @@ def staff_registraction(request):
     return redirect('registerstaff')
   
 
-  
 def loginurl(request):
   if request.method == 'POST':
     user_name = request.POST['username']
@@ -269,8 +269,7 @@ def loginurl(request):
       messages.info(request, 'Invalid Username or Password. Try Again.')
       return redirect('login')  
   else:  
-   return redirect('login')   
-  
+   return redirect('login')  
   
 
 @login_required(login_url='login')  
@@ -346,6 +345,7 @@ def staffprofile(request):
 
           }
   return render(request,'profilestaff.html',context)
+
 
 def editstaffprofile(request):
   staff_id = request.session['staff_id']
